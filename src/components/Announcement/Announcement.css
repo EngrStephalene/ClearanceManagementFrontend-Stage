@@ -1,0 +1,7 @@
+.AnnouncementComponent h2 {
+    text-align: center;
+    color: chocolate;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 3em;
+}

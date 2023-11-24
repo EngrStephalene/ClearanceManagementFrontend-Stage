@@ -1,0 +1,110 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #2F4050;
+  text-align: center;
+  color:white;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.MainComponent {
+  display:flex;
+}
+
+main{
+  width: 100%;
+  padding: 20px;
+}
+
+/**
+ * THIS PART IS FOR THE SIDE BAR COMPONENT
+**/
+.Sidebar {
+  height: 94vh;
+  width: 250px;
+  background-color: #2F4050;
+}
+
+.SidebarList {
+  height: auto;
+  width: 100%;
+  padding: 0;
+}
+
+.SidebarList .SidebarRow {
+  height: 80px;
+  width: 100%;
+  /* border: 1px solid black; */
+  list-style-type: none;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.SidebarList .SidebarRow:hover {
+  cursor: pointer;
+  background-color: #293846;
+}
+
+.SidebarList #active {
+  background-color: #293846;
+}
+
+.SidebarList #avatarIcon {
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.SidebarRow #sidebarIcon {
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.SidebarRow #sidebarTitle {
+  flex: 30%;
+}
+
+/**
+ * THIS PART IS FOR THE HEADER COMPONENT
+**/
+#headerNav {
+  background-color: #2F4050;
+}
+
+.container-fluid a {
+  color: chocolate;
+  text-shadow: 1px whitesmoke;
+  font-size: large;
+}
+
+.container-fluid a:hover {
+  color:white;
+}
+
+.navbar-brand {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 75px;
+  font-size: large;
+}
+
+.nav-link {
+  font-family: 'Courier New', Courier, monospace !important;
+  color: chocolate !important;
+}

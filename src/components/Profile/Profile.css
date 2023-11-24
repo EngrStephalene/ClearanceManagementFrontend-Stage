@@ -1,0 +1,111 @@
+.MainProfile h2 {
+    color: chocolate;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+}
+
+.tab-widget {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .tab-buttons {
+    display: flex;
+  }
+  
+  .tab-buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .tab-buttons button.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .tab-content {
+    padding: 10px;
+  }
+
+.tab-content2 h2{
+    text-align: center;
+    
+}
+.tab-content2 {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.file-input-container {
+  margin-top: 20px; 
+
+}
+
+.selected-image {
+    border: 1px solid #444444; 
+    margin-top: 20px;      
+    padding: 3px;  
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+    width:150px;
+    height:150px;
+}
+
+.basic-info {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
+.basic-info h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+  
+.basic-info li {
+    list-style-type: none;
+    margin-left: 20px;
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input.password{
+    text-align: center;
+}
+
+.image-container {
+    position: relative;
+  }
+  
+.image-box-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 10px solid #333; /* Add a border around the image */
+  }
+
+.password-reset-form {
+    display:inline-flex;
+    flex-direction:column;
+    align-items: left;
+}
+
+.password-reset {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
