@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./AuthService";
 
-const CLEARANCE_REST_API_BASE_URL = 'http://localhost:8080/api/clearance/';
+const CLEARANCE_REST_API_BASE_URL = 'amiable-copper-production.up.railway.app/api/clearance/';
 
 
 // Add a request interceptor
@@ -20,8 +20,8 @@ export const getClearanceByStudentId = (studentId) => axios.get(CLEARANCE_REST_A
 
 export const markClearanceAsApprove = (id) => axios.patch(CLEARANCE_REST_API_BASE_URL + id)
 
-export const markClearanceAsReject = (id, remarks) => axios.patch('http://localhost:8080/api/clearance/reject/' + id, remarks)
+export const markClearanceAsReject = (id, remarks) => axios.patch('amiable-copper-production.up.railway.app/api/clearance/reject/' + id, remarks)
 
-export const addClearance = (clearance) => axios.post('http://localhost:8080/api/clearance/add' , clearance)
+export const addClearance = (clearance) => axios.post('amiable-copper-production.up.railway.appamiable-copper-production.up.railway.app/api/clearance/add' , clearance)
 
 export const deleteStudentClearance = (studentId) => axios.delete(CLEARANCE_REST_API_BASE_URL + studentId)

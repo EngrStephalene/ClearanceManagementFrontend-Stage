@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./AuthService";
 
-const DEPARTMENT_REST_API_BASE_URL = 'http://localhost:8080/api/department/';
+const DEPARTMENT_REST_API_BASE_URL = 'amiable-copper-production.up.railway.app/api/department/';
 
 
 // Add a request interceptor
@@ -20,7 +20,7 @@ export const getAllDepartment = () => axios.get(DEPARTMENT_REST_API_BASE_URL)
 export const getDepartmentById = (id) => axios.get(DEPARTMENT_REST_API_BASE_URL + '/' + id)
 
 export function createDepartment(department) {
-    axios.post('http://localhost:8080/api/department/add', department);
+    axios.post('amiable-copper-production.up.railway.app/api/department/add', department);
 }
 
 export function updateDepartment(departmentId, department) {

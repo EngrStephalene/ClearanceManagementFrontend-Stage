@@ -2,7 +2,7 @@ import axios from "axios";
 
 const authApiClient = axios.create({
     
-    baseURL: 'http://localhost:8080/api/auth'
+    baseURL: 'amiable-copper-production.up.railway.app/api/auth'
 })
   
 

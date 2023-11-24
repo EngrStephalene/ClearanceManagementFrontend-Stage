@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./AuthService";
 
-const DEPARTMENT_REST_API_BASE_URL = 'http://localhost:8080/api/announcement/';
+const DEPARTMENT_REST_API_BASE_URL = 'amiable-copper-production.up.railway.app/api/announcement/';
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
