@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./AuthService";
 
-const SUBJECT_REST_API_BASE_URL = 'amiable-copper-production.up.railway.app/api/subject/';
+const SUBJECT_REST_API_BASE_URL = 'https://amiable-copper-production.up.railway.app/api/subject/';
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {

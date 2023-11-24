@@ -2,7 +2,7 @@ import axios from "axios";
 
 const authApiClient = axios.create({
     
-    baseURL: 'amiable-copper-production.up.railway.app/api/auth'
+    baseURL: 'https://amiable-copper-production.up.railway.app/api/auth'
 })
   
 
