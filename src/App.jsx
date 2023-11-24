@@ -27,7 +27,7 @@ function App() {
     if(isAuthenticated) {
       return children
     }
-    return <Navigate to="/" />
+    return <Navigate to="https://clearance-management-frontend-stage.vercel.app/" />
   }
 
   return (
