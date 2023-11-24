@@ -72,7 +72,7 @@ const SubjectComponent = () => {
       if(validateForm()) {
         console.log("ADD SUBJECT API IS CALLED.");
         console.log(subj);
-        axios.post('http://localhost:8080/api/subject/add-subj', subj)
+        axios.post('https://amiable-copper-production.up.railway.app/api/subject/add-subj', subj)
         .then((response) => {
           console.log(response.data);
           alert("Successfully added subject.");

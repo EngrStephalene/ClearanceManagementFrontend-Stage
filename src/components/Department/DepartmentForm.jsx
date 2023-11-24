@@ -22,7 +22,7 @@ const DepartmentForm = () => {
     //FUNCTION TO HANDLE ADD ANNOUNCEMENT BUTTON
     const onSubmit = (values, props) => {
         console.log("ADD DEPARTMENT API IS CALLED.")
-        axios.post('http://localhost:8080/api/department/add', values)
+        axios.post('https://amiable-copper-production.up.railway.app/api/department/add', values)
         .then((response) => {
           console.log(response.data);
           //instead of navigating to department list, create message box for alert
