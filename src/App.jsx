@@ -37,13 +37,13 @@ function App() {
       <SideBarComponent>
           <Routes>
             {/* Routing for Violation Service */}
-            <Route path='/violations' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/violations' element = {
               <AuthenticatedRoute>
                 <ListViolationsComponent/>
               </AuthenticatedRoute>
               }>
             </Route>
-            <Route path='/student-violations' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/student-violations' element = {
               <AuthenticatedRoute>
                 <ListViolationForStudentComponent/>
               </AuthenticatedRoute>
@@ -51,82 +51,82 @@ function App() {
             </Route>
 
             {/* Routing for Department Service */}
-            <Route path='/departments' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/departments' element = {
               <AuthenticatedRoute>
                 <ListDepartmentComponent/>
               </AuthenticatedRoute>
             }></Route>
-            <Route path='/add-department' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/add-department' element = {
               <AuthenticatedRoute>
                 <DepartmentComponent/>
               </AuthenticatedRoute>
             }></Route>
-            <Route path='/update-department/:id' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/update-department/:id' element = {
               <AuthenticatedRoute>
                 <DepartmentComponent/>
               </AuthenticatedRoute>
             }></Route>
 
             {/* Routing for Subject Service */}
-            <Route path='/subjects' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/subjects' element = {
               <AuthenticatedRoute>
                 <ListSubjectComponent/>
               </AuthenticatedRoute>
             }></Route>
-            <Route path='/add-subject' element= {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/add-subject' element= {
               <AuthenticatedRoute>
                 <SubjectComponent/>
               </AuthenticatedRoute>
             }></Route>
-            <Route path='/update-subject/:id' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/update-subject/:id' element = {
               <AuthenticatedRoute>
                 <SubjectComponent/>
               </AuthenticatedRoute>
             }></Route>
 
             {/* Routing for Students Service */}
-            <Route path='/students' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/students' element = {
               <AuthenticatedRoute>
                 <ListStudentsComponent/>
               </AuthenticatedRoute>
             }></Route>
-            <Route path="/add-student" element = {
+            <Route path="https://clearance-management-frontend-stage.vercel.app/add-student" element = {
               <AuthenticatedRoute>
                 <StudentComponent/>
               </AuthenticatedRoute>
             }></Route>
 
             {/* Routing for Faculty Service */}
-            <Route path='/faculties' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/faculties' element = {
               <AuthenticatedRoute>
                 <ListFacultyComponent/>
               </AuthenticatedRoute>
             }></Route>
-            <Route path='/add-faculty' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/add-faculty' element = {
               <AuthenticatedRoute>
                 <FacultyComponent/>
               </AuthenticatedRoute>
             }></Route>
 
             {/* Routing for Clearance Service */}
-            <Route path='/clearances' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/clearances' element = {
               <AuthenticatedRoute>
                 <ListClearanceComponent/>
               </AuthenticatedRoute>
             }></Route>
 
             {/* Routing for Authentication (LOGIN) and Dashboard*/}
-            <Route path='/' element = {<LoginComponent/>}></Route>
+            <Route path='https://clearance-management-frontend-stage.vercel.app/' element = {<LoginComponent/>}></Route>
 
             {/* Routing for Dashboard component */}
-            <Route path='/home' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/home' element = {
               <AuthenticatedRoute>
                 <ListAnnouncementComponent/>
               </AuthenticatedRoute>
             }></Route>
 
             {/* Route for Profile Section */}
-            <Route path='/profile' element = {
+            <Route path='https://clearance-management-frontend-stage.vercel.app/profile' element = {
               <AuthenticatedRoute>
                 <ProfileComponent/>
               </AuthenticatedRoute>
