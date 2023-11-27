@@ -7,11 +7,11 @@ import { updateViolation } from '../../services/ViolationService'
 const UpdateViolationForm = (params) => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
-    const{violationId, facultyId, studentId, violationDescription, violationActionItem} = params;
+    const{violationId, facultyId, studentId, studentName, violationDescription, violationActionItem} = params;
 
     //INITIALIZE FORM VALUES
     const initialValues = {
-        studentName: studentId,
+        studentName: studentName,
         description: violationDescription,
         actionItem: violationActionItem
     }

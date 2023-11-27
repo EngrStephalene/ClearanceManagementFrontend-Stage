@@ -15,6 +15,7 @@ const ListAnnouncementComponent = () => {
   const [color, setColor] = useState("default");
   const [open, setOpen] = useState(false)
   const isAdmin = isAdminUser();
+  const btnStyle = { marginTop: 10, marginLeft: 150 }
   
   //FUNCTION TO HANDLE THE LIKE BUTTON FOR EACH CARD
   const handleColor = () => {

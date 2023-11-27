@@ -7,6 +7,7 @@ import { addFacultyHead } from '../../services/FacultyService'
 const FacultyHeadForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
+    const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
 
      //INITIALIZE FORM VALUES
      const initialValues = {
@@ -47,6 +48,10 @@ const FacultyHeadForm = () => {
         alert("Successfully added faculty head.")
         window.location.reload(true)
         props.resetForm()
+    }
+
+    const handleClose = () => {
+        window.location.reload(true)
     }
 
   return (
@@ -138,6 +143,14 @@ const FacultyHeadForm = () => {
                         variant='contained'
                         color='primary'>
                             Submit
+                        </Button>
+                        <Button 
+                            onClick={handleClose}
+                            variant='contained'
+                            color = 'error'
+                            style={cancelbtnStyle}
+                            >
+                            Cancel
                         </Button>
                     </Form>
                 )}

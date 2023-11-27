@@ -7,6 +7,7 @@ import { addFaculty } from '../../services/FacultyService'
 const FacultyForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
+    const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
 
      //INITIALIZE FORM VALUES
      const initialValues = {
@@ -46,6 +47,10 @@ const FacultyForm = () => {
         alert("Successfully added faculty.")
         window.location.reload(true)
         props.resetForm()
+    }
+
+    const handleClose = () => {
+        window.location.reload(true)
     }
 
   return (
@@ -117,6 +122,14 @@ const FacultyForm = () => {
                         variant='contained'
                         color='primary'>
                             Submit
+                        </Button>
+                        <Button 
+                            onClick={handleClose}
+                            variant='contained'
+                            color = 'error'
+                            style={cancelbtnStyle}
+                            >
+                            Cancel
                         </Button>
                     </Form>
                 )}

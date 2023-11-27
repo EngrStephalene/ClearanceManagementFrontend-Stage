@@ -13,6 +13,7 @@ const ListViolationsComponent = () => {
     const [violations, setViolations] = useState([])
     const navigate = useNavigate()
     const [selectedStudent, setSelectedStudent] = useState([])
+    const [selectedStudentName, setSelectedStudentName] = useState([])
     const [selectedViolation, setSelectedViolation] = useState([])
     const [selectedViolationReporter, setSelectedViolationReporter] = useState([])
     const [violationDescription, setViolationDescription] = useState([])
@@ -26,6 +27,7 @@ const ListViolationsComponent = () => {
     //FUNCTION TO HANDLE GET ALL VIOLATION API CALL
     function violationList() {
         getAllViolation().then((response) => {
+            console.log(response.data)
             setViolations(response.data);
         }).catch(error => {
             console.error(error);
@@ -36,6 +38,7 @@ const ListViolationsComponent = () => {
     function handleUpdateViolation(violation) {
         console.log("Update violation button is clicked.");
         setSelectedStudent(violation.studentId)
+        setSelectedStudentName(violation.studentName)
         setSelectedViolation(violation.id)
         setSelectedViolationReporter(violation.facultyId)
         setViolationDescription(violation.description)
@@ -129,7 +132,7 @@ const ListViolationsComponent = () => {
                         {
                             violations.map(violation => 
                                 <tr key={violation.id}>
-                                    <td>{violation.studentId}</td>
+                                    <td>{violation.studentName}</td>
                                     <td>{violation.description}</td>
                                     <td>{violation.actionItem}</td>
                                     <td>{violation.facultyId}</td>
@@ -199,6 +202,7 @@ const ListViolationsComponent = () => {
                  violationId = {selectedViolation}
                  facultyId = {selectedViolationReporter}
                  studentId = {selectedStudent}
+                 studentName = {selectedStudentName}
                  violationDescription = {violationDescription}
                  violationActionItem = {violationActionitem}
                 >

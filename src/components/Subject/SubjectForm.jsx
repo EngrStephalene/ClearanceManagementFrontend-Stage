@@ -4,33 +4,34 @@ import React, { useState } from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
 
-const DepartmentForm = () => {
+const SubjectForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 250, }
     const btnStyle = { marginTop: 10 }
     const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
 
     //INITIALIZE FORM VALUES
     const initialValues = {
-        departmentName: ''
+        subjectName: ''
     }
 
     //FUNCTION FOR FORM VALIDATION
     const validationSchema = Yup.object().shape({
-        departmentName: Yup.string().min(3, "Department Name too short").required("Required")
+        subjectName: Yup.string().min(3, "Subject Name too short").required("Required")
     })
 
 
     //FUNCTION TO HANDLE ADD ANNOUNCEMENT BUTTON
     const onSubmit = (values, props) => {
-        console.log("ADD DEPARTMENT API IS CALLED.")
-        axios.post('https://amiable-copper-production.up.railway.app/api/department/add', values)
+        console.log("ADD SUBJECT API IS CALLED.");
+        console.log(values);
+        axios.post('http://localhost:8080/api/subject/add-subj', values)
         .then((response) => {
           console.log(response.data);
-          //instead of navigating to department list, create message box for alert
-          alert("Successfully created department.")
+          alert("Successfully added subject.");
           window.location.reload(true)
         }).catch(error => {
-          console.error(error);
+          console.log(error);
+          alert("Error adding subject.");
         })
         props.resetForm()
     }
@@ -43,20 +44,29 @@ const DepartmentForm = () => {
     <Grid>
         <Paper elevation={0} style={paperStyle}>
             <Grid align='center'>
-                <Typography variant='caption'>Fill the form to add department.</Typography>
+                <Typography variant='caption'>Fill the form to subject department.</Typography>
             </Grid>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 {(props) => (
                     <Form>
                         <Field 
                         as={TextField}
-                        name = 'departmentName'
-                        label = 'Department Name'
+                        name = 'subjectName'
+                        label = 'Subject Name'
                         fullWidth
                         required
-                        error={props.errors.departmentName && props.touched.departmentName}
-                                helperText={<ErrorMessage name='departmentName' />}
+                        error={props.errors.subjectName && props.touched.subjectName}
+                                helperText={<ErrorMessage name='subjectName' />}
                         />
+                        <Field
+                        name = 'department'
+                        label = 'Select Department'
+                        component = 'select'
+                        style={{marginTop: "15px"}}
+                        >
+                            <option value="">Select Department</option>
+                            
+                        </Field>
                         <Button 
                         type='submit' style={btnStyle} 
                         variant='contained'
@@ -79,4 +89,4 @@ const DepartmentForm = () => {
   )
 }
 
-export default DepartmentForm
+export default SubjectForm

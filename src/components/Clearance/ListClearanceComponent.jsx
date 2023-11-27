@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getUserId, isAdminUser, isFacultyHead, isFacultyUser, isStudentUser } from '../../services/AuthService';
-import { deleteStudentClearance, getAllClearanceRequest, getClearanceByStudentId, markClearanceAsApprove } from '../../services/ClearanceService';
+import { deleteStudentClearance, getAllClearanceRequest, getClearanceByFacultyId, getClearanceByStudentId, markClearanceAsApprove } from '../../services/ClearanceService';
 import ClearanceForm from './ClearanceForm';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigationIcon from '@mui/icons-material/Navigation';
@@ -30,6 +30,13 @@ const ListClearanceComponent = () => {
   function clearanceList() {
     if(isStudent) {
       getClearanceByStudentId(userId).then((response) => {
+        setClearance(response.data)
+        console.log(response.data)
+      }).catch(err => {
+        console.log(err)
+      })
+    } else if(isFaculty || isFacultyH) {
+      getClearanceByFacultyId(userId).then((response) => {
         setClearance(response.data)
         console.log(response.data)
       }).catch(err => {
@@ -65,7 +72,7 @@ const ListClearanceComponent = () => {
 
   //FUNCTION TO HANDLE THE APPROVE BUTTON FOR DIFFERENT USERS
   function handleApproveClearanceButton(clearance) {
-    if(isAdmin && clearance.status === "Pending") {
+    if( (isAdmin || isFaculty || isFacultyH) && clearance.status === "Pending") {
       return <td>
         <Fab
         color='info' 
@@ -77,16 +84,16 @@ const ListClearanceComponent = () => {
           Approve Clearance
         </Fab>
         </td>
-    } else if(isAdmin) {
+    } else if(isAdmin || isFaculty || isFacultyH) {
       return <td>
         Approved Date on {clearance.approvedDate}
       </td>
     }
   }
 
-  //
+  //FUNCTION TO HANDLE THE REJECT BUTTON FOR DIFFERENT USERS
   function handleRejectClearanceButton(clearance) {
-    if(isAdmin && clearance.status === "Pending") {
+    if((isAdmin || isFaculty || isFacultyH) && clearance.status === "Pending") {
       return <td>
         <Fab
         color='error' 
@@ -98,7 +105,7 @@ const ListClearanceComponent = () => {
           Reject Clearance
         </Fab>
       </td>
-    } else if(isAdmin) {
+    } else if(isAdmin || isFaculty || isFacultyH) {
       return <td>
         <Fab
         color='error' 
@@ -167,6 +174,15 @@ const ListClearanceComponent = () => {
               {
                 isFaculty && <th>Approve Clearance</th>
               }
+              {
+                isFaculty && <th>Reject Clearance</th>
+              }
+              {
+                isFacultyH && <th>Approve Clearance</th>
+              }
+              {
+                isFacultyH && <th>Reject Clearance</th>
+              }
             </tr>
           </thead>
           <tbody>
@@ -194,6 +210,7 @@ const ListClearanceComponent = () => {
 
   //FUNCTION TO HANDLE BUTTONS FOR STUDENT USER
   function renderRequestClearanceButton() {
+    var isAllApproved = false;
     if (isStudent && clearances.length === 0) {
       return <Button onClick={handleClearanceRequest} variant="outlined" startIcon={<AddIcon />}>
       REQUEST CLEARANCE
