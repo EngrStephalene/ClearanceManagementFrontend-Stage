@@ -103,15 +103,15 @@ const ProfileComponent = () => {
             <h2>Basic Info</h2>
             <ul>
               <li>Name: {userInformation.firstName}  {userInformation.middleName}  {userInformation.lastName}</li>
-              <li>Birthday: </li>
+              {/* <li>Birthday: </li>
               <li>Birthplace: </li>
-              <li>Gender: </li>
+              <li>Gender: </li> */}
               <li>Address: {userInformation.address}</li>
-              <li>Mobile Number:</li>
+              {/* <li>Mobile Number:</li> */}
               <li>Email Address: {userInformation.email}</li>
             </ul>
             <div className="parents-info">
-            <h2>Parents Info</h2>
+            {/* <h2>Parents Info</h2>
             <ul>
               <li>Mother's Name:</li>
               <li>Father's Name: </li>
@@ -120,7 +120,7 @@ const ProfileComponent = () => {
               <li>Gender: </li>
               <li>Citizenship: </li>
               <li>Civil Status: </li>
-            </ul>
+            </ul> */}
             </div>
           </div>}
           {activeTab === 1 && (

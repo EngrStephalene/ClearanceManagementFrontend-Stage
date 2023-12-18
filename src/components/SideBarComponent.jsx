@@ -9,12 +9,13 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
-import { getLoggedInUser, isAdminUser, isFacultyHead, isStudentUser, isUserLoggedIn } from '../services/AuthService';
+import { getLoggedInUser, isAdminUser, isFacultyHead, isStudentUser, isUserLoggedIn, getRole } from '../services/AuthService';
 import { Avatar } from '@mui/material';
 
 const SideBarComponent = ({children}) => {
 
   const authUser = getLoggedInUser();
+  const role = authUser();
 
   const isAuth = isUserLoggedIn();
   const navigate = useNavigate();
@@ -95,6 +96,7 @@ const SideBarComponent = ({children}) => {
                 <div id='avatarIcon'>
                   <p>Welcome back</p>
                   <p>{authUser}</p>
+                  <p>{role}</p>
                 </div>
               </li>
               <li 
