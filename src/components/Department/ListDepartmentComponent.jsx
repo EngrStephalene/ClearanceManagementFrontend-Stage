@@ -96,21 +96,26 @@ const ListDepartmentComponent = () => {
                             <tr key={department.id}>
                                 <td> {department.departmentName} </td>
                                 <td>
-                                    <Fab
-                                    onClick={() => updateDepartment(department.id)}
-                                    color="secondary" 
-                                    aria-label="edit"
-                                    >
-                                        <EditIcon/>
-                                    </Fab>
-                                    <Fab
-                                    onClick={() => handleDelete(department.id)}
-                                    style={{marginLeft: "10px"}}
-                                    aria-label="delete"
-                                    color="error"
-                                    >
-                                        <DeleteIcon/>
-                                    </Fab>
+                                    {
+                                        adminUser && <Fab
+                                        onClick={() => updateDepartment(department.id)}
+                                        color="secondary" 
+                                        aria-label="edit"
+                                        >
+                                            <EditIcon/>
+                                        </Fab>
+                                    }
+                                    {
+                                        adminUser && <Fab
+                                        onClick={() => handleDelete(department.id)}
+                                        style={{marginLeft: "10px"}}
+                                        aria-label="delete"
+                                        color="error"
+                                        >
+                                            <DeleteIcon/>
+                                        </Fab>
+                                    }
+                                    
                                     <Fab
                                     onClick={() => viewSubjects()}
                                     color='info' 

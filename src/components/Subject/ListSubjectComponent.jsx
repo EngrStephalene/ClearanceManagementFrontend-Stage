@@ -92,21 +92,25 @@ const ListSubjectComponent = () => {
                             <tr key={subject.id}>
                                 <td> {subject.subjectName} </td>
                                 <td>
-                                    <Fab 
-                                    color="secondary" 
-                                    aria-label="edit"
-                                    onClick={() => updateSubject(subject.id)}
-                                    >
-                                        <EditIcon/>
-                                    </Fab>
-                                    <Fab 
-                                    aria-label="delete"
-                                    color="error"
-                                    onClick={() => handleDelete(subject.id)}
-                                    style={{marginLeft: "10px"}}
-                                    >
-                                        <DeleteIcon/>
-                                    </Fab>
+                                    {
+                                        isAdmin && <Fab 
+                                        color="secondary" 
+                                        aria-label="edit"
+                                        onClick={() => updateSubject(subject.id)}
+                                        >
+                                            <EditIcon/>
+                                        </Fab>
+                                    }
+                                    {
+                                        isAdmin && <Fab 
+                                        aria-label="delete"
+                                        color="error"
+                                        onClick={() => handleDelete(subject.id)}
+                                        style={{marginLeft: "10px"}}
+                                        >
+                                            <DeleteIcon/>
+                                        </Fab>
+                                    }
                                 {/* <button onClick={() => updateSubject(subject.id)} className='btn btn-info'>Update</button> */}
                                     {/* <button onClick={() => handleDelete(subject.id)} className='btn btn-danger'
                                         style={{marginLeft: "10px"}}>
