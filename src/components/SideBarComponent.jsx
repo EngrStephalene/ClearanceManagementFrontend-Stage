@@ -15,7 +15,7 @@ import { Avatar } from '@mui/material';
 const SideBarComponent = ({children}) => {
 
   const authUser = getLoggedInUser();
-  const role = authUser();
+  const role = getRole();
 
   const isAuth = isUserLoggedIn();
   const navigate = useNavigate();
