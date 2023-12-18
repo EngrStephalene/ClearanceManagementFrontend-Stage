@@ -47,7 +47,7 @@ const ListViolationForStudentComponent = () => {
 
     //FUNCTION TO RENDER STUDENT VIOLATIONS DYNAMICALLY
     function renderStudentViolations() {
-        if(studentViolationList.length === 0) {
+        if(studentViolations.length === 0) {
             console.log("GET ALL STUDENT VIOLATION IS EMPTY");
             return <Alert severity='info'>
                 <AlertTitle>Info</AlertTitle>
