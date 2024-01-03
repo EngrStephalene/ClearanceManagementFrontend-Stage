@@ -44,11 +44,12 @@ const UpdateStudentForm = (params) => {
         .then((response) => {
             console.log(response.data)
             alert("Successfully updated student information.")
+            window.location.reload(true)
         }).catch(err => {
             console.log(err)
             alert("There was an error while updating student information. Kindly contact administrator.")
+            window.location.reload(true)
         })
-        window.location.reload(true)
         props.resetForm()
     }
 
