@@ -14,6 +14,10 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 
+export const getRoleOfFaculty = (id) => axios.get(USER_REST_API_BASE_URL + 'role/' + id)
+
 export const verifyPassword = (username, password) => axios.post(USER_REST_API_BASE_URL, {username, password})
+
+export const updateUserProfile = (request) => axios.put(USER_REST_API_BASE_URL + 'update', request);
 
 export const updatePassword = (username, password, newPassword) => axios.patch(USER_REST_API_BASE_URL + "update-password", {username,password,newPassword})

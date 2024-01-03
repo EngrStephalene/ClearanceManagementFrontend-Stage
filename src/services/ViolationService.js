@@ -13,9 +13,11 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
   });
 
-export function getAllViolation() {
-    return axios.get(BASE_REST_API_URL);
-}
+// export function getAllViolation() {
+//     return axios.get(BASE_REST_API_URL);
+// }
+
+export const getAllViolation = () => axios.get("https://amiable-copper-production.up.railway.app/api/violation/")
 
 export const getStudentViolations = (studentId) => axios.get(BASE_REST_API_URL + 'student/' + studentId)
 

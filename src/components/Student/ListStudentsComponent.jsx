@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import {getAllStudent} from '../../services/StudentService'
+import {deleteStudent, getAllStudent} from '../../services/StudentService'
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import { Dialog, DialogContent, DialogTitle, Fab, Button } from '@mui/material'
 import './Student.css'
@@ -9,6 +9,9 @@ import ViolationForm from '../Violation/ViolationForm';
 import AddIcon from '@mui/icons-material/Add';
 import StudentForm from './StudentForm';
 import SearchIcon from '@mui/icons-material/Search';
+import EditIcon from '@mui/icons-material/Edit';
+import UpdateStudentForm from './UpdateStudentForm';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ListStudentsComponent = () => {
   const[students, setStudents] = useState([])
@@ -16,9 +19,11 @@ const ListStudentsComponent = () => {
   const {id} = useParams();
   const [addViolationOpen, setAddViolationOpen] = useState(false)
   const [addStudentOpen, setAddStudentOpen] = useState(false)
+  const [updateStudentOpen, setUpdateStudentOpen] = useState(false)
   const [selectedStudent, setSelectedStudent] = useState([])
   const [selectedStudentFirstname, setSelectedStudentFirstname] = useState([])
   const [selectedStudentLastname, setSelectedStudentLastname] = useState([])
+  const [selectedStudentForUpdate, setSelectedStudentForUpdate] = useState([])
 
   useEffect(() => {
     studentList();
@@ -31,7 +36,7 @@ const ListStudentsComponent = () => {
       console.log(response.data);
     }).catch(error => {
       console.log("error" + error);
-      <Alert severity="error">Error while fetching student list. Please contact administrator.</Alert>
+      // <Alert severity="error">Error while fetching student list. Please contact administrator.</Alert>
     })
   }
 
@@ -44,9 +49,32 @@ const ListStudentsComponent = () => {
     setAddViolationOpen(true)
   }
 
+  //FUNCTION FOR ADD STUDENT FORM
   function handleAddStudent() {
     console.log("Add student button is clicked.")
     setAddStudentOpen(true)
+  }
+
+  //FUNCTION FOR EDIT STUDENT FORM
+  function handleUpdateStudent(student) {
+    console.log("Update student button is clicked.")
+    setUpdateStudentOpen(true)
+    setSelectedStudentForUpdate(student)
+  }
+
+  //FUNCTION FOR DELETE STUDENT
+  function handleDeleteStudent(id) {
+    console.log("Delete student button is clicked.")
+    deleteStudent(id)
+    .then((response) => {
+      console.log(response)
+      alert("Successfully deleted student.")
+      window.location.reload(true)
+    }).catch(err => {
+      console.log(err)
+      alert("There was an error while deleting student. Kindly contact administrator.")
+      window.location.reload(true)
+    })
   }
 
   return (
@@ -88,8 +116,24 @@ const ListStudentsComponent = () => {
                     <td> {student.address} </td>
                     <td>
                       <Fab
+                        color="secondary" 
+                        aria-label="edit"
+                        onClick={() => handleUpdateStudent(student)}
+                      >
+                        <EditIcon/>
+                      </Fab>
+                      <Fab
+                        color="error" 
+                        aria-label="delete"
+                        onClick={() => handleDeleteStudent(student.id)}
+                        style={{marginLeft: "10px"}}
+                       >
+                        <DeleteIcon/>
+                      </Fab>
+                      <Fab
                       aria-label='violation' 
                       variant="extended"
+                      style={{marginLeft: "10px"}}
                       onClick={() => addViolation(student.firstName, student.lastName, student.studentNumber)}
                       color='success'>
                         <SentimentDissatisfiedIcon sx={{ mr: 1 }}/>
@@ -140,6 +184,31 @@ const ListStudentsComponent = () => {
         <DialogTitle textAlign={'center'}>ADD STUDENT FORM</DialogTitle>
         <DialogContent dividers>
          <StudentForm/>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+      open = {updateStudentOpen}
+      onClose={() => setUpdateStudentOpen(false)}
+      >
+        <Button 
+            color='primary'
+            onClick={() => setUpdateStudentOpen(false)}
+            style={{marginLeft: "500px"}}
+            >
+                <CloseIcon/>
+        </Button>
+        <DialogTitle textAlign={'center'}>UPDATE STUDENT FORM</DialogTitle>
+        <DialogContent dividers>
+         <UpdateStudentForm
+          pUserId = {selectedStudentForUpdate.userId}
+          pFirstName = {selectedStudentForUpdate.firstName}
+          pMiddleName = {selectedStudentForUpdate.middleName}
+          pLastName = {selectedStudentForUpdate.lastName}
+          pStudentNumber = {selectedStudentForUpdate.studentNumber}
+          pEmail = {selectedStudentForUpdate.email}
+          pAddress = {selectedStudentForUpdate.address}
+         />
         </DialogContent>
       </Dialog>
   

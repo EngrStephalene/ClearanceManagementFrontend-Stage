@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
-import { getAllFaculty } from '../../services/FacultyService'
+import { deleteFaculty, getAllFaculty } from '../../services/FacultyService'
 import AddIcon from '@mui/icons-material/Add';
-import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Fab } from '@mui/material';
 import FacultyForm from './FacultyForm';
 import CloseIcon from '@mui/icons-material/Close';
 import FacultyHeadForm from './FacultyHeadForm';
 import { isAdminUser, isFacultyHead } from '../../services/AuthService';
 import './Faculty.css'
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import UpdateFacultyForm from './UpdateFacultyForm';
+import { getRoleOfFaculty } from '../../services/UserService';
 
 const ListFacultyComponent = () => {
   const [faculties, setFaculties] = useState([])
   const [addFacultyOpen, setAddFacultyOpen] = useState(false)
+  const [updateFacultyOpen, setUpdateFacultyOpen] = useState(false)
   const [addFacultyHeadOpen, setAddFacultyHeadOpen] = useState(false)
+  const [selectedFacultyForUpdate, setSelectedFacultyForUpdate] = useState([])
+  const [officeOfSelectedFaculty, setOfficeOfSelectedFaculty] = useState([])
   const isAdmin = isAdminUser();
   const isFacultyH = isFacultyHead();
 
@@ -39,6 +46,85 @@ const ListFacultyComponent = () => {
   function handleAddFacultyHead() {
     console.log("Add faculty head button is clicked")
     setAddFacultyHeadOpen(true)
+  }
+
+  function handleUpdateFaculty(faculty) {
+    console.log("Update faculty button is clicked.")
+    setSelectedFacultyForUpdate(faculty)
+    // getRoleOfFaculty(faculty.id)
+    // .then((response) => {
+    //   console.log(response.data)
+    //   setOfficeOfSelectedFaculty(response.data)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+    setUpdateFacultyOpen(true)
+  }
+
+  function handleDeleteFaculty(id) {
+    console.log("Delete faculty button is clicked.")
+    console.log(id)
+    deleteFaculty(id)
+    .then((response) => {
+      console.log(response.data)
+      alert("Successfully deleted faculty.")
+      window.location.reload(true)
+    }).catch(err => {
+      console.log(err)
+      alert("There was an error while deleting faculty. Kindly contact admin.")
+      window.location.reload(true)
+    })
+  }
+
+  //THIS FUNCTION IS TO RENDER EDIT BUTTON IN THE TABLE COLUMN
+  function renderEditButton(faculty) {
+    if(faculty.id == 1) {
+      return <Fab
+      color="secondary" 
+      aria-label="edit"
+      onClick={() => handleUpdateFaculty(faculty)}
+      disabled
+      >
+      <EditIcon/>
+      </Fab>
+    } else {
+      return <Fab
+      color="secondary" 
+      aria-label="edit"
+      onClick={() => handleUpdateFaculty(faculty)}
+      >
+      <EditIcon/>
+      </Fab>
+    }
+  }
+
+  //FUNCTION TO RENDER DELETE BUTTON IN THE TABLE COLUMN
+  function renderDeleteButton(id) {
+    if(id == 1) {
+      return <Fab
+          color="error" 
+          aria-label="delete"
+          onClick={() => handleDeleteFaculty(id)}
+          style={{marginLeft: "10px"}}
+          disabled
+         >
+          <DeleteIcon/>
+        </Fab>
+    } else {
+      return <Fab
+        color="error" 
+        aria-label="delete"
+        onClick={() => handleDeleteFaculty(id)}
+        style={{marginLeft: "10px"}}
+      >
+        <DeleteIcon/>
+      </Fab>
+    }
+  }
+
+  function handleCloseUpdateFacultyForm() {
+    setUpdateFacultyOpen(false)
+    setOfficeOfSelectedFaculty()
   }
 
   return (
@@ -69,6 +155,7 @@ const ListFacultyComponent = () => {
             <th>LAST NAME</th>
             <th>EMAIL</th>
             <th>ADDRESS</th>
+            <th>ACTION</th>
           </tr>
         </thead>
         <tbody>
@@ -81,6 +168,10 @@ const ListFacultyComponent = () => {
                       <td> {faculty.lastName} </td>
                       <td> {faculty.email} </td>
                       <td> {faculty.address} </td>
+                      <td>
+                        {renderEditButton(faculty)}
+                        {renderDeleteButton(faculty.id)}
+                      </td>
                     </tr>
                   )
               }
@@ -121,6 +212,31 @@ const ListFacultyComponent = () => {
           </DialogContent>
         </Dialog>
 
+        <Dialog
+        open = {updateFacultyOpen}
+        onClose={() => setUpdateFacultyOpen(false)}
+        >
+          <Button 
+              color='primary'
+              onClick={() => handleCloseUpdateFacultyForm()}
+              style={{marginLeft: "500px"}}
+              >
+                  <CloseIcon/>
+          </Button>
+          <DialogTitle textAlign={'center'}>UPDATE FACULTY FORM</DialogTitle>
+          <DialogContent dividers>
+            <UpdateFacultyForm
+              pFacultyId = {selectedFacultyForUpdate.id}
+              pFacultyNumber = {selectedFacultyForUpdate.facultyNumber}
+              pFirstName = {selectedFacultyForUpdate.firstName}
+              pMiddleName = {selectedFacultyForUpdate.middleName}
+              pLastName = {selectedFacultyForUpdate.lastName}
+              pAddress = {selectedFacultyForUpdate.address}
+              pEmail = {selectedFacultyForUpdate.email}
+              pOffice = {officeOfSelectedFaculty}
+            />
+          </DialogContent>
+        </Dialog>
     </div>
   )
 }

@@ -23,4 +23,8 @@ export const getFacultyInformation = (userId) => axios.get('https://amiable-copp
 
 export const addFaculty = (faculty) => axios.post('https://amiable-copper-production.up.railway.app/api/faculty/add' , faculty)
 
+export const updateFaculty = (id, faculty) => axios.put('https://amiable-copper-production.up.railway.app/api/faculty/update/' + id , faculty)
+
 export const addFacultyHead = (faculty) => axios.post('https://amiable-copper-production.up.railway.app/api/faculty/head/add', faculty)
+
+export const deleteFaculty = (id) => axios.delete('https://amiable-copper-production.up.railway.app/api/faculty/delete/' + id)

@@ -10,6 +10,7 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 import ClearanceRejectForm from './ClearanceRejectForm'
 import { getStudentNumberByUserId } from '../../services/StudentService';
 import './Clearance.css'
+import { getRoleOfFaculty } from '../../services/UserService';
 
 const ListClearanceComponent = () => {
 
@@ -150,6 +151,17 @@ const ListClearanceComponent = () => {
         </Fab>
       </td>
     }
+  }
+
+  function handleFacultyRole(clearance) {
+    const roleOfFaculty = null
+    getRoleOfFaculty(clearance.facultyId)
+    .then((response) => {
+      console.log(response.data)
+      return <td>response.data</td>
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   //FUNCTION TO HANDLE APPROVE CLEARANCE REQUEST
