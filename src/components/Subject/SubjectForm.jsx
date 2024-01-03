@@ -24,7 +24,7 @@ const SubjectForm = () => {
     const onSubmit = (values, props) => {
         console.log("ADD SUBJECT API IS CALLED.");
         console.log(values);
-        axios.post('http://localhost:8080/api/subject/add-subj', values)
+        axios.post('https://amiable-copper-production.up.railway.app/api/subject/add-subj', values)
         .then((response) => {
           console.log(response.data);
           alert("Successfully added subject.");

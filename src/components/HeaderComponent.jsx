@@ -17,7 +17,7 @@ const HeaderComponent = () => {
         <header>
             <nav className="navbar navbar-light" id='headerNav'>
               <div className="container-fluid">
-                <a className="navbar-brand" href='http://localhost:3000/home'>
+                <a className="navbar-brand" href='https://clearance-management-frontend-stage.vercel.app/home'>
                 <img src={logo} alt={"logo"} width='80' height='80'/>
                   SAINT FRANCIS COLLEGE - GUIHULNGAN
                 </a>

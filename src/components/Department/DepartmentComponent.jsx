@@ -19,7 +19,7 @@ const DepartmentComponent = () => {
     if(id) {
       console.log("Update department api is called.");
 
-      axios.put('http://localhost:8080/api/department/' + id, department)
+      axios.put('https://amiable-copper-production.up.railway.app/api/department/' + id, department)
       .then((response) => {
         console.log(response.data);
         //instead of navigating to department list, create message box for alert
@@ -31,7 +31,7 @@ const DepartmentComponent = () => {
     } else { //THIS IS FOR ADD DEPARTMENT API
       console.log("Add department api is called.");
 
-      axios.post('http://localhost:8080/api/department/add', department)
+      axios.post('https://amiable-copper-production.up.railway.app/api/department/add', department)
       .then((response) => {
         console.log(response.data);
         //instead of navigating to department list, create message box for alert
