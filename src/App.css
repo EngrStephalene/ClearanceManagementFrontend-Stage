@@ -20,6 +20,11 @@ body {
 
 .MainComponent {
   display:flex;
+  background-image: url('images/logo.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 35rem;
 }
 
 main{

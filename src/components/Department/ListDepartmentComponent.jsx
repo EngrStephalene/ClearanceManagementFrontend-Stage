@@ -115,7 +115,6 @@ const ListDepartmentComponent = () => {
                                             <DeleteIcon/>
                                         </Fab>
                                     }
-                                    
                                     <Fab
                                     onClick={() => viewSubjects()}
                                     color='info' 

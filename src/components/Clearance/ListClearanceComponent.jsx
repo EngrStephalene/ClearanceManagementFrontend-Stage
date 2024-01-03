@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Button, DialogContent, DialogTitle, Dialog, Fab } from '@mui/material'
+import { Alert, AlertTitle, Button, DialogContent, DialogTitle, Dialog, Fab, colors } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,6 +8,8 @@ import ClearanceForm from './ClearanceForm';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import ClearanceRejectForm from './ClearanceRejectForm'
+import { getStudentNumberByUserId } from '../../services/StudentService';
+import './Clearance.css'
 
 const ListClearanceComponent = () => {
 
@@ -20,11 +22,28 @@ const ListClearanceComponent = () => {
   const [clearanceRejectFormOpen, setClearanceRejectForm] = useState(false)
   const [selectedClearanceId, setSelectedClearanceId] = useState(false)
   const userId = getUserId();
+  const [studentNumber, setStudentNumber] = useState([])
+  const approvedStatus = {color: '#00bbf0', fontWeight: 'bold'}
+  const pendingStatus = { color: '#dc2f2f'}
 
   useEffect(() => {
     console.log("Is User student: " + isStudent)
+    getStudentIdFromDb(); //student id is referred to as student number in students table
     clearanceList();
   }, [])
+
+      //IF USER ROLE IS STUDENT, FETCH THE STUDENT ID FROM STUDENT TABLE
+      function getStudentIdFromDb() {
+        if(isStudentUser()) {
+            console.log("userId: " + userId)
+            getStudentNumberByUserId(userId).then((response) => {
+                console.log("Student ID: " + response.data)
+                setStudentNumber(response.data)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }
 
   //GETS THE LIST OF CLEARANCE FROM DB
   function clearanceList() {
@@ -84,9 +103,21 @@ const ListClearanceComponent = () => {
           Approve Clearance
         </Fab>
         </td>
-    } else if(isAdmin || isFaculty || isFacultyH) {
+    } else if((isAdmin || isFaculty || isFacultyH) && clearance.status === "Approved") {
       return <td>
         Approved Date on {clearance.approvedDate}
+      </td>
+    } else if((isAdmin || isFaculty || isFacultyH) && clearance.status === "Rejected") {
+      return <td>
+      <Fab
+      color='info' 
+      variant="extended"
+      style={{marginLeft: "10px"}}
+      disabled
+      >
+        <NavigationIcon sx={{ mr: 1 }} />
+        Approve Clearance
+      </Fab>
       </td>
     }
   }
@@ -139,6 +170,17 @@ const ListClearanceComponent = () => {
     setClearanceRejectForm(true)
   }
 
+  function renderStatus(status) {
+    console.log(status)
+    if(status == "Approved") {
+      return <p style={approvedStatus}>Approved</p>
+    } else if(status == "Rejected") {
+      return <p style={pendingStatus}>Rejected</p>
+    } else {
+      return <p>{status}</p>
+    }
+  }
+
   //FUNCTION TO RENDER CLEARANCE REQUEST BASED ON USER ROLE
   function renderClearanceList() {
     if(clearances.length === 0) {
@@ -154,34 +196,25 @@ const ListClearanceComponent = () => {
         </Alert>
       }
     } else {
-      return <div className='Clearance Component'>
+      return <div className='ClearanceComponent'>
         <br></br>
         <h2 className='text-center'>LIST OF CLEARANCE REQUESTS</h2>
         <br></br>
         <table className='table table-striped table-bordered shadow'>
           <thead>
             <tr>
+              {
+                (isAdmin || isFaculty || isFacultyH) && <th>Student</th>
+              }
               <th>Description</th>
               <th>LogDate</th>
               <th>Status</th>
               <th>Approver</th>
               {
-                isAdmin && <th>Approve Clearance</th>
+                (isAdmin || isFaculty || isFacultyH) && <th>Approve Clearance</th>
               }
               {
-                isAdmin && <th>Reject Clearance</th>
-              }
-              {
-                isFaculty && <th>Approve Clearance</th>
-              }
-              {
-                isFaculty && <th>Reject Clearance</th>
-              }
-              {
-                isFacultyH && <th>Approve Clearance</th>
-              }
-              {
-                isFacultyH && <th>Reject Clearance</th>
+                (isAdmin || isFaculty || isFacultyH) && <th>Reject Clearance</th>
               }
             </tr>
           </thead>
@@ -189,9 +222,12 @@ const ListClearanceComponent = () => {
           {
               clearances.map( clearance =>
                   <tr key={clearance.id}>
+                    {
+                      (isAdmin || isFaculty || isFacultyH) && <td> {clearance.studentName} </td>
+                    }
                     <td> {clearance.reason} </td>
                     <td> {clearance.logDate} </td>
-                    <td> {clearance.status} </td>
+                    <td> {renderStatus(clearance.status)} </td>
                     <td> {clearance.approverName} </td>
                     {
                       handleApproveClearanceButton(clearance)

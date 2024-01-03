@@ -7,6 +7,7 @@ import FacultyForm from './FacultyForm';
 import CloseIcon from '@mui/icons-material/Close';
 import FacultyHeadForm from './FacultyHeadForm';
 import { isAdminUser, isFacultyHead } from '../../services/AuthService';
+import './Faculty.css'
 
 const ListFacultyComponent = () => {
   const [faculties, setFaculties] = useState([])
@@ -41,7 +42,7 @@ const ListFacultyComponent = () => {
   }
 
   return (
-    <div className='container'>
+    <div className='FacultyComponent'>
       <br></br>
       <h2 className='text-center'>LIST OF FACULTIES</h2>
       <br></br>

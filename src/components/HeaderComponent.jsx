@@ -1,6 +1,7 @@
 import React from 'react'
 import { isUserLoggedIn, logout } from '../services/AuthService'
 import { NavLink, useNavigate } from 'react-router-dom'
+import logo from '../images/logo.png'
 
 const HeaderComponent = () => {
   const isAuth = isUserLoggedIn()
@@ -16,7 +17,10 @@ const HeaderComponent = () => {
         <header>
             <nav className="navbar navbar-light" id='headerNav'>
               <div className="container-fluid">
-                <a className="navbar-brand" href='http://localhost:3000/home'>SAINT FRANCIS COLLEGE - GUIHULNGAN</a>
+                <a className="navbar-brand" href='http://localhost:3000/home'>
+                <img src={logo} alt={"logo"} width='80' height='80'/>
+                  SAINT FRANCIS COLLEGE - GUIHULNGAN
+                </a>
                 <ul className='navbar-nav'>
                   {
                     isAuth && 

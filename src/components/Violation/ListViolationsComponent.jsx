@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { deleteViolation, getAllViolation, markViolationAsComplete } from '../../services/ViolationService'
+import { deleteViolation, getAllViolation, markViolationAsComplete, getStudentViolations } from '../../services/ViolationService'
 import { useNavigate } from 'react-router-dom'
 import './Violation.css'
 import { Button, Alert, AlertTitle, Dialog, DialogContent, DialogTitle, Fab, Table, TablePagination } from '@mui/material';
@@ -8,9 +8,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import UpdateViolationForm from './UpdateViolationForm';
+import { isStudentUser, getUserId, isAdminUser, isFacultyHead, isFacultyUser } from '../../services/AuthService';
+import { getStudentNumberByUserId, getStudentNameByUserId } from '../../services/StudentService';
 
 const ListViolationsComponent = () => {
     const [violations, setViolations] = useState([])
+    const [studentViolations, setStudentViolations] = useState([])
     const navigate = useNavigate()
     const [selectedStudent, setSelectedStudent] = useState([])
     const [selectedStudentName, setSelectedStudentName] = useState([])
@@ -19,10 +22,41 @@ const ListViolationsComponent = () => {
     const [violationDescription, setViolationDescription] = useState([])
     const [violationActionitem, setViolationActionItem] = useState([])
     const [openViolationOpen, setOpenViolationOpen] = useState(false)
+    const [studentNumber, setStudentNumber] = useState([])
+    const [studentName, setStudentName] = useState([])
+    const userId = getUserId()
 
     useEffect(() => {
+        getStudentIdFromDb(); //student id is referred to as student number in students table
+        getStudentNameFromDb();
         violationList();
     }, [])
+
+
+    //IF USER ROLE IS STUDENT, FETCH THE STUDENT ID FROM STUDENT TABLE
+    function getStudentIdFromDb() {
+        if(isStudentUser()) {
+            console.log("userId: " + userId)
+            getStudentNumberByUserId(userId).then((response) => {
+                console.log("Student ID: " + response.data)
+                setStudentNumber(response.data)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }
+
+    //IF USER ROLE IS STUDENT, FETCH THE STUDENT NAME FROM STUDENT TABLE
+    function getStudentNameFromDb() {
+        if(isStudentUser()) {
+            getStudentNameByUserId(userId).then((response) => {
+                console.log("Student Name: " + response.data)
+                setStudentName(response.data)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }
 
     //FUNCTION TO HANDLE GET ALL VIOLATION API CALL
     function violationList() {
@@ -106,8 +140,9 @@ const ListViolationsComponent = () => {
         }
     }
 
-    //FUNCTION TO RENDER VIOLATION TABLE DYNAMICALLY
+    //FUNCTION TO RENDER VIOLATION TABLE DYNAMICALLY (FOR ADMIN AND FACULTIES ROLE)
     function renderViolation() {
+        console.log("RENDER VIOLATION LIST - ADMIN AND FACULTY ROLES.")
         if(violations.length === 0) {
             console.log("GET ALL VIOLATIONS RETURNED EMPTY.");
             return <Alert severity='info'>
@@ -135,7 +170,7 @@ const ListViolationsComponent = () => {
                                     <td>{violation.studentName}</td>
                                     <td>{violation.description}</td>
                                     <td>{violation.actionItem}</td>
-                                    <td>{violation.facultyId}</td>
+                                    <td>{violation.facultyName}</td>
                                     {/* <td>{violation.completed ? 'COMPLETED': 'INCOMPLETE'}</td> */}
                                     {
                                         renderCompleteIncompleteColumn(violation.completed)
@@ -169,10 +204,57 @@ const ListViolationsComponent = () => {
         }
     }
 
+    //RENDER THE TABLE DYNAMICALLY (USER ROLE = STUDENT)
+    function renderStudentViolation() {
+        console.log("RENDER VIOLATION LIST - STUDENT ROLES.")
+        if(violations.length === 0) {
+            console.log("GET ALL VIOLATIONS RETURNED EMPTY.");
+            return <Alert severity='info'>
+                <AlertTitle>Info</AlertTitle>
+                <strong>NO STUDENT VIOLATIONS RECORD AT THIS TIME.</strong>
+            </Alert>
+        } else {
+            console.log("GET ALL VIOLATIONS IS NOT EMPTY.")
+            return <div>
+                <table className='table table-bordered table-striped shadow'>
+                    <thead>
+                        <tr>
+                            <th>Log Date</th>
+                            <th>Remarks</th>
+                            <th>Action Item</th>
+                            <th>Reporter</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            violations.map(violation =>
+                                violation.studentId == studentNumber &&
+                                <tr key={violation.id}>
+                                    <td>{violation.logDate}</td>
+                                    <td>{violation.description}</td>
+                                    <td>{violation.actionItem}</td>
+                                    <td>{violation.facultyName}</td>
+                                    {/* <td>{violation.completed ? 'COMPLETED': 'INCOMPLETE'}</td> */}
+                                </tr>
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+
   return (
     <div className='ViolationListComponent'>
         <br></br>
-        <h2 className='text-center'>LIST OF ALL STUDENT VIOLATIONS</h2>
+        {
+            (isAdminUser() || isFacultyHead() || isFacultyUser()) &&
+            <h2 className='text-center'>LIST OF STUDENT VIOLATIONS</h2>
+        }
+        {
+            isStudentUser() &&
+            <h2 className='text-center'>LIST OF VIOLATIONS FOR {studentName}</h2>
+        }
         <br></br>
         {/* <Fab
         color='primary'
@@ -182,7 +264,12 @@ const ListViolationsComponent = () => {
             <AddIcon/>
         </Fab> */}
         {
+            (isAdminUser() || isFacultyHead() || isFacultyUser()) &&
             renderViolation()
+        }
+        {
+            isStudentUser() &&
+            renderStudentViolation()
         }
 
         <Dialog

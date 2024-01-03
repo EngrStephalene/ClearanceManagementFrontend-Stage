@@ -22,7 +22,7 @@ export const getClearanceByFacultyId = (facultyId) => axios.get('https://amiable
 
 export const markClearanceAsApprove = (id) => axios.patch(CLEARANCE_REST_API_BASE_URL + id)
 
-export const markClearanceAsReject = (id, remarks) => axios.patch('https://amiable-copper-production.up.railway.app/api/clearance/reject/' + id, remarks)
+export const markClearanceAsReject = (rejectClearance) => axios.patch('https://amiable-copper-production.up.railway.app/api/clearance/reject', rejectClearance)
 
 export const addClearance = (clearance) => axios.post('https://amiable-copper-production.up.railway.app/api/clearance/add' , clearance)
 

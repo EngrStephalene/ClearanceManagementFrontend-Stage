@@ -18,3 +18,7 @@ export const getAllStudent = () => axios.get(STUDENT_REST_API_BASE_URL)
 export const getStudentInformation = (userId) => axios.get('https://amiable-copper-production.up.railway.app/api/student/' + userId)
 
 export const addStudent = (student) => axios.post('https://amiable-copper-production.up.railway.app/api/student/add' , student)
+
+export const getStudentNumberByUserId = (userId) => axios.get(STUDENT_REST_API_BASE_URL + 'get-studentNumber/' + userId)
+
+export const getStudentNameByUserId = (userId) => axios.get(STUDENT_REST_API_BASE_URL + "get-studentName/" + userId)

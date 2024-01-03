@@ -17,9 +17,7 @@ export function getAllViolation() {
     return axios.get(BASE_REST_API_URL);
 }
 
-export const getStudentViolations = (studentId) => axios.get('https://amiable-copper-production.up.railway.app/api/violation/get/' + studentId)
-
-export const getStudentViolationByStudentNumber = (studentNumber) => axios.get('https://amiable-copper-production.up.railway.app/api/violation/student-violation/' + studentNumber)
+export const getStudentViolations = (studentId) => axios.get(BASE_REST_API_URL + 'student/' + studentId)
 
 export function createViolation(studentNumber, violation) {
     axios.post('https://amiable-copper-production.up.railway.app/api/violation/add/' + studentNumber , violation);

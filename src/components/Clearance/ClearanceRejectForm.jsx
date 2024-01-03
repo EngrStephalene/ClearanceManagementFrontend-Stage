@@ -22,18 +22,20 @@ const ClearanceRejectForm = (params) => {
     })
 
 
-    //FUNCTION TO HANDLE ADD ANNOUNCEMENT BUTTON
+    //FUNCTION TO HANDLE REJECT CLEARANCE BUTTON
     const onSubmit = (values, props) => {
         const remarks = values.remarks;
         console.log("REJECT CLEARANCE API IS CALLED.")
-        console.log(id)
-        console.log(remarks)
-        markClearanceAsReject(id,remarks).then((response) => {
+        console.log("Clearance ID: " + id)
+        console.log("REMARKS: " + remarks)
+        const rejectClearance = {id, remarks}
+        markClearanceAsReject(rejectClearance).then((response) => {
             console.log(response.data)
         }).catch(err => {
             console.log(err)
         })
         props.resetForm()
+        window.location.reload(true)
     }
 
   return (

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getStudentViolationByStudentNumber, getStudentViolations } from '../../services/ViolationService'
+import { getStudentViolations } from '../../services/ViolationService'
 import { getUserId } from '../../services/AuthService'
 import { Alert, AlertTitle } from '@mui/material'
-import { getStudentInformation } from '../../services/StudentService';
+import { getStudentInformation,  getStudentNumberByUserId} from '../../services/StudentService';
 
 
 const ListViolationForStudentComponent = () => {
     const [studentViolations, setStudentViolations] = useState([])
-    const [studentInfo, setStudentInfo] = useState([])
     const userId =getUserId()
     const [studentNumber, setStudentNumber] = useState([])
 
@@ -16,33 +15,24 @@ const ListViolationForStudentComponent = () => {
         studentViolationList()
     }, [])
 
-    //FUNCTION TO FETCH STUDENT INFORMATION FROM DB
-    function getStudentInfoFromDb() {
-        getStudentInformation(userId).then((response) => {
-            console.log(response.data)
-            setStudentInfo(response.data)
-            setStudentNumber(studentInfo.studentNumber)
-        }).catch(err => {
-            console.log(err)
-        })
-    }
-
     //FUNCTION TO FETCH STUDENT VIOLATION LIST FROM DB
     function studentViolationList() {
-        // getStudentViolations(userId).then((response) => {
-        //     console.log(response.data)
-        //     setStudentViolations(response.data)
-        // }).catch(err => {
-        //     console.log(err)
-        // })
-        console.log(studentNumber)
-        getStudentViolationByStudentNumber(studentNumber)
-        .then((response) => {
+        console.log("userId: " + userId)
+        getStudentNumberByUserId(userId).then((response) => {
             console.log(response.data)
-            setStudentViolations(response.data)
+            setStudentNumber(response.data)
         }).catch(err => {
             console.log(err)
         })
+
+        console.log(studentNumber)
+        getStudentViolations(studentNumber)
+            .then((res) => {
+                console.log(res.data)
+                setStudentViolations(res.data)
+            }).catch(error => {
+                console.log(error)
+            })
     }
 
     //FUNCTION TO RENDER STUDENT VIOLATIONS DYNAMICALLY

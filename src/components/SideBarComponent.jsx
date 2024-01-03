@@ -9,13 +9,12 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
-import { getLoggedInUser, isAdminUser, isFacultyHead, isStudentUser, isUserLoggedIn, getRole } from '../services/AuthService';
+import { getLoggedInUser, isAdminUser, isFacultyHead, isStudentUser, isUserLoggedIn } from '../services/AuthService';
 import { Avatar } from '@mui/material';
 
 const SideBarComponent = ({children}) => {
 
   const authUser = getLoggedInUser();
-  const role = getRole();
 
   const isAuth = isUserLoggedIn();
   const navigate = useNavigate();
@@ -96,7 +95,6 @@ const SideBarComponent = ({children}) => {
                 <div id='avatarIcon'>
                   <p>Welcome back</p>
                   <p>{authUser}</p>
-                  <p>{role}</p>
                 </div>
               </li>
               <li 
@@ -202,9 +200,7 @@ const SideBarComponent = ({children}) => {
                   <div id='sidebarTitle'>FACULTIES</div>
                 </li>
               }
-              {
-                isAdmin &&
-                <li 
+              <li 
                 className='SidebarRow' 
                 onClick={handleViolationLink}
                 id={window.location.pathname == "/violations" ? "active" : ""}
@@ -214,39 +210,8 @@ const SideBarComponent = ({children}) => {
                       <ErrorOutlineIcon/>
                     }
                   </div>
-                  <div id='sidebarTitle'>VIEW ALL STUDENT VIOLATIONS</div>
-                </li>
-              }
-              {
-                isFacultyH &&
-                <li 
-                className='SidebarRow' 
-                onClick={handleViolationLink}
-                id={window.location.pathname == "/violations" ? "active" : ""}
-                >
-                  <div id='sidebarIcon'>
-                    {
-                      <ErrorOutlineIcon/>
-                    }
-                  </div>
-                  <div id='sidebarTitle'>VIEW ALL STUDENT VIOLATIONS</div>
-                </li>
-              }
-              {
-                isStudent && 
-                <li 
-                className='SidebarRow' 
-                onClick={handleStudentViolationLink}
-                id={window.location.pathname == "/student-violations" ? "active" : ""}
-                >
-                  <div id='sidebarIcon'>
-                    {
-                      <ErrorOutlineIcon/>
-                    }
-                  </div>
-                  <div id='sidebarTitle'>VIOLATIONS</div>
-                </li>
-              }
+                  <div id='sidebarTitle'>VIEW STUDENT VIOLATIONS</div>
+              </li>
           </ul>
       </div>
       }
