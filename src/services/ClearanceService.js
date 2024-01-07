@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./AuthService";
 
-const CLEARANCE_REST_API_BASE_URL = 'hhttps://amiable-copper-production.up.railway.app/api/clearance/';
+const CLEARANCE_REST_API_BASE_URL = 'https://amiable-copper-production.up.railway.app/api/clearance/';
 
 
 // Add a request interceptor
