@@ -19,12 +19,8 @@ export const getAllDepartment = () => axios.get(DEPARTMENT_REST_API_BASE_URL)
 
 export const getDepartmentById = (id) => axios.get(DEPARTMENT_REST_API_BASE_URL + '/' + id)
 
-export function createDepartment(department) {
-    axios.post('https://amiable-copper-production.up.railway.app/api/department/add', department);
-}
+export const addDepartment = (department) => axios.post(DEPARTMENT_REST_API_BASE_URL + 'add' , department)
 
-export function updateDepartment(departmentId, department) {
-    axios.put(DEPARTMENT_REST_API_BASE_URL + '/' + departmentId, department);
-}
+export const editDepartment = (department) => axios.put(DEPARTMENT_REST_API_BASE_URL + 'update', department)
 
 export const deleteDepartment = (id) => axios.delete(DEPARTMENT_REST_API_BASE_URL + id)

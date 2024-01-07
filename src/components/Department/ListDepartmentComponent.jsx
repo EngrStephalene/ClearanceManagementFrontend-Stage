@@ -11,6 +11,7 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 import DepartmentForm from './DepartmentForm';
 import CloseIcon from '@mui/icons-material/Close';
 import { isAdminUser } from '../../services/AuthService';
+import EditDepartmentForm from './EditDepartmentForm';
 
 const ListDepartmentComponent = () => {
   const [departments, setDepartments] = useState([])
@@ -19,7 +20,10 @@ const ListDepartmentComponent = () => {
   const [status, setStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [addDeptDialogOpen, setAddDeptOpen] = useState(false);
+  const [editDeptDialogOpen, setEditDeptOpen] = useState(false)
+  const [selectedDeptForEdit, setSelectedDeptForEdit] = useState([])
   const adminUser = isAdminUser();
+  const tableStyle = {backgroundColor: "rgba(229, 226, 226, 0.545)"}
 
     useEffect(() => {
         departmentList();
@@ -65,25 +69,34 @@ const ListDepartmentComponent = () => {
         // navigator('/add-department')
     }
 
+    function handleEditDepartmentButton(department) {
+        console.log("EDIT DEPARTMENT BUTTON IS CLICKED.")
+        setSelectedDeptForEdit(department)
+        setEditDeptOpen(true)
+    }
+
   return (
      <div className='DepartmentListComponent'>
-        <div className="input-group rounded">
+        {/* <div className="input-group rounded">
         <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
         <span className="input-group-text border-0" id="search-addon">
             <SearchIcon/>
         </span>
-        </div>
+        </div> */}
         <br></br>
         <h2 className='text-center'>LIST OF DEPARTMENTS</h2>
         <br></br>
         {
             adminUser && 
-            <Button onClick={handleAddDeptButton} variant="outlined" startIcon={<AddIcon />}>
+            <Button onClick={handleAddDeptButton} 
+            variant="contained" 
+            color = 'success' 
+            startIcon={<AddIcon />}>
             ADD DEPARTMENT
             </Button>
         }
         <br></br><br></br>
-        <table className='table table-striped table-bordered shadow'>
+        <table className='table table-striped table-bordered shadow' id='department-table' style={{width:"96%"}}>
             <thead>
                 <tr>
                     <th>Department Name</th>
@@ -98,9 +111,10 @@ const ListDepartmentComponent = () => {
                                 <td>
                                     {
                                         adminUser && <Fab
-                                        onClick={() => updateDepartment(department.id)}
+                                        onClick={() => handleEditDepartmentButton(department)}
                                         color="secondary" 
                                         aria-label="edit"
+                                        style={{transform: 'scale(0.9)'}}
                                         >
                                             <EditIcon/>
                                         </Fab>
@@ -108,14 +122,14 @@ const ListDepartmentComponent = () => {
                                     {
                                         adminUser && <Fab
                                         onClick={() => handleDelete(department.id)}
-                                        style={{marginLeft: "10px"}}
+                                        style={{transform: 'scale(0.9)'}}
                                         aria-label="delete"
                                         color="error"
                                         >
                                             <DeleteIcon/>
                                         </Fab>
                                     }
-                                    <Fab
+                                    {/* <Fab
                                     onClick={() => viewSubjects()}
                                     color='info' 
                                     variant="extended"
@@ -123,7 +137,7 @@ const ListDepartmentComponent = () => {
                                     >
                                         <NavigationIcon sx={{ mr: 1 }} />
                                         View Subjects
-                                    </Fab>
+                                    </Fab> */}
                                     {/* <button onClick={() => updateDepartment(department.id)} className='btn btn-info'>Update</button> */}
                                     {/* <button onClick={() => handleDelete(department.id)} className='btn btn-danger'
                                         style={{marginLeft: "10px"}}>
@@ -154,6 +168,26 @@ const ListDepartmentComponent = () => {
             <DialogTitle>ADD DEPARTMENT</DialogTitle>
             <DialogContent dividers>
                 <DepartmentForm/>
+            </DialogContent>
+        </Dialog>
+
+        <Dialog
+        open={editDeptDialogOpen}
+        onClose = {() => setEditDeptOpen(false)}
+        >
+            <Button 
+            color='primary'
+            onClick={() => setEditDeptOpen(false)}
+            style={{marginLeft: "235px"}}
+            >
+                <CloseIcon/>
+            </Button>
+            <DialogTitle>EDIT DEPARTMENT</DialogTitle>
+            <DialogContent dividers>
+                <EditDepartmentForm
+                    pId = {selectedDeptForEdit.id}
+                    pDepartmentName = {selectedDeptForEdit.departmentName}
+                />
             </DialogContent>
         </Dialog>
     </div>

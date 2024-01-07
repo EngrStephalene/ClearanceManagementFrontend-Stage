@@ -24,16 +24,14 @@ const UpdateProfileForm = (params) => {
         middleName: pMiddleName,
         lastName: pLastName,
         address: pAddress,
-        email: pEmail,
-        username: authorizedUser
+        email: pEmail
     }
 
     //FUNCTION FOR FORM VALIDATION
     const validationSchema = Yup.object().shape({
         firstName: Yup.string().min(3, "First Name too short").required("Required"),
         lastName: Yup.string().min(1, "Last Name too short").required("Required"),
-        address: Yup.string().min(3, "Description too short. Please be descriptive.").required("Required"),
-        username: Yup.string().min(3, "Username too short.").required("Required")
+        address: Yup.string().min(3, "Description too short. Please be descriptive.").required("Required")
     })
 
 
@@ -43,11 +41,10 @@ const UpdateProfileForm = (params) => {
         const middleName = values.middleName;
         const lastName = values.lastName;
         const address = values.address;
-        const username = values.username;
         const email = values.email
         const userId = authUserId
         const role = userRole
-        const request = {userId, role, firstName, middleName, lastName, address, username, email}
+        const request = {userId, role, firstName, middleName, lastName, address, email}
         console.log(request)
         updateUserProfile(request)
         .then((response) => {
@@ -70,7 +67,7 @@ const UpdateProfileForm = (params) => {
     <Grid>
         <Paper elevation={0} style={paperStyle}>
             <Grid align='center'>
-                <Typography variant='caption'>Fill the form to add violation for student.</Typography>
+                <Typography variant='caption'>Fill the form to edit user information.</Typography>
             </Grid>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 {(props) => (
@@ -120,16 +117,6 @@ const UpdateProfileForm = (params) => {
                         style={{marginBottom: "15px"}}
                         fullWidth
                         required
-                        />
-                        <Field 
-                        as={TextField}
-                        name = 'username'
-                        label = 'Username'
-                        style={{marginBottom: "15px"}}
-                        fullWidth
-                        required
-                        error={props.errors.username && props.touched.username}
-                                helperText={<ErrorMessage name='username' />}
                         />
                         <Button 
                         type='submit' style={btnStyle} 

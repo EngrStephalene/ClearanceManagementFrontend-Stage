@@ -11,6 +11,7 @@
 .App {
   width: 100vw;
   height: 100vh;
+  z-index: 1;
 }
 
 body {
@@ -20,16 +21,21 @@ body {
 
 .MainComponent {
   display:flex;
-  background-image: url('images/logo.png');
-  background-repeat: no-repeat;
+  background-image: url('images/homeBackground4.jpg');
+  background-repeat:no-repeat;
   background-attachment: fixed;
   background-position: center;
-  background-size: 35rem;
+  background-size: cover;
+  z-index: 2;
+}
+
+.MainComponent::before{
+  opacity: 0.5;
+  z-index: -1;
 }
 
 main{
   width: 100%;
-  padding: 20px;
 }
 
 /**
@@ -38,7 +44,8 @@ main{
 .Sidebar {
   height: 94vh;
   width: 250px;
-  background-color: #2F4050;
+  background-color: #2f405024;
+  margin-right: 2%;
 }
 
 .SidebarList {
@@ -62,6 +69,7 @@ main{
 }
 
 .SidebarList .SidebarRow:hover {
+  display: flex;
   cursor: pointer;
   background-color: #293846;
 }

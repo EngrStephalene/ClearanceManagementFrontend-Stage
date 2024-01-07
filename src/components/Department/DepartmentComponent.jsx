@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { updateDepartment } from '../../services/DepartmentService'
 
 const DepartmentComponent = () => {
   const [departmentName, setDepartmentName] = useState('')

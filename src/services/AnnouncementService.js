@@ -17,4 +17,6 @@ export const getAllAnnouncement = () => axios.get(DEPARTMENT_REST_API_BASE_URL)
 
 export const addAnnouncement = (announcement) => axios.post(DEPARTMENT_REST_API_BASE_URL + 'add' , announcement)
 
+export const editAnnouncement = (announcement) => axios.put(DEPARTMENT_REST_API_BASE_URL + 'update', announcement)
+
 export const deleteAnnouncement = (id) => axios.delete(DEPARTMENT_REST_API_BASE_URL + id)

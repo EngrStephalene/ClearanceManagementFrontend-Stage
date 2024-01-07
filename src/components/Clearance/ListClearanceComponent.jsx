@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getUserId, isAdminUser, isFacultyHead, isFacultyUser, isStudentUser } from '../../services/AuthService';
-import { deleteStudentClearance, getAllClearanceRequest, getClearanceByFacultyId, getClearanceByStudentId, markClearanceAsApprove } from '../../services/ClearanceService';
+import { deleteStudentClearance, getAllClearanceRequest, getClearanceByFacultyId, getClearanceByStudentId, getStudentInformationForHeader, markClearanceAsApprove } from '../../services/ClearanceService';
 import ClearanceForm from './ClearanceForm';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigationIcon from '@mui/icons-material/Navigation';
@@ -26,15 +26,17 @@ const ListClearanceComponent = () => {
   const [studentNumber, setStudentNumber] = useState([])
   const approvedStatus = {color: '#00bbf0', fontWeight: 'bold'}
   const pendingStatus = { color: '#dc2f2f'}
+  const cardStyle = {marginBottom: 25, backgroundColor: "rgba(229, 226, 226, 0.545)"}
+  const [studentInformationHeader, setStudentInformationHeader] = useState([])
 
   useEffect(() => {
-    console.log("Is User student: " + isStudent)
     getStudentIdFromDb(); //student id is referred to as student number in students table
     clearanceList();
+    getStudentInfoForHeader();
   }, [])
 
-      //IF USER ROLE IS STUDENT, FETCH THE STUDENT ID FROM STUDENT TABLE
-      function getStudentIdFromDb() {
+    //IF USER ROLE IS STUDENT, FETCH THE STUDENT ID FROM STUDENT TABLE
+    function getStudentIdFromDb() {
         if(isStudentUser()) {
             console.log("userId: " + userId)
             getStudentNumberByUserId(userId).then((response) => {
@@ -45,6 +47,20 @@ const ListClearanceComponent = () => {
             })
         }
     }
+
+  //IF USER IS STUDENT, FETCH STUDENT INFORMATION FOR THE INFORMATION IN THE CARD HEADER
+  function getStudentInfoForHeader() {
+    console.log("Student header method: " + userId)
+    if(isStudentUser()) {
+      getStudentInformationForHeader(userId)
+      .then((response) => {
+        console.log("test " + response.data)
+        setStudentInformationHeader(response.data)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
 
   //GETS THE LIST OF CLEARANCE FROM DB
   function clearanceList() {
@@ -169,7 +185,7 @@ const ListClearanceComponent = () => {
     console.log("Approve clearance " + id)
     markClearanceAsApprove(id).then((response) => {
       console.log(response.data)
-      alert("Successfully approved clearance request.")
+      // alert("Successfully approved clearance request.")
       window.location.reload(true)
     }).catch(err => {
       console.log(err)
@@ -197,12 +213,12 @@ const ListClearanceComponent = () => {
   function renderClearanceList() {
     if(clearances.length === 0) {
       if(isAdmin || isFacultyH || isFaculty) {
-        return <Alert severity='info'>
-        <AlertTitle>Info</AlertTitle>
+        return <Alert severity='info' style={cardStyle}>
+        <AlertTitle >Info</AlertTitle>
         <strong>THERE ARE NO CLEARANCE REQUEST AT THIS TIME.</strong>
         </Alert>
       } else {
-        return <Alert severity='info'>
+        return <Alert severity='info' style={{ backgroundColor: "rgba(229, 226, 226, 0.545)", marginTop: "50px", color: "black", opacity:"100" }}>
         <AlertTitle>Info</AlertTitle>
         <strong>YOU HAVE NO CLEARANCE REQUEST AT THIS TIME.</strong>
         </Alert>
@@ -210,18 +226,33 @@ const ListClearanceComponent = () => {
     } else {
       return <div className='ClearanceComponent'>
         <br></br>
+
         <h2 className='text-center'>LIST OF CLEARANCE REQUESTS</h2>
+        <div className='test'>
+          {
+            isStudent && <div className='lists'>
+            <ul>
+              <li style={{listStyle:"none", fontSize:"20px"}}>Name: {studentInformationHeader.studentName} </li>
+              <li style={{listStyle:"none", fontSize:"20px"}}>Course/Year Level: {studentInformationHeader.yearLevel} Year</li>
+              <li style={{listStyle:"none", fontSize:"20px"}}>Purpose: {studentInformationHeader.purpose}</li>
+            </ul>
+          </div>
+          }
         <br></br>
-        <table className='table table-striped table-bordered shadow'>
+        <table className='table table-striped table-bordered shadow' style={{width:"100%"}}>
           <thead>
             <tr>
               {
                 (isAdmin || isFaculty || isFacultyH) && <th>Student</th>
               }
-              <th>Description</th>
-              <th>LogDate</th>
-              <th>Status</th>
-              <th>Approver</th>
+              {
+                isStudent && <th>NAME OF OFFICE</th>
+              }
+              {
+                isStudent && <th>APPROVER</th>
+              }
+              <th>APPROVED DATE</th>
+              <th>STATUS</th>
               {
                 (isAdmin || isFaculty || isFacultyH) && <th>Approve Clearance</th>
               }
@@ -237,10 +268,14 @@ const ListClearanceComponent = () => {
                     {
                       (isAdmin || isFaculty || isFacultyH) && <td> {clearance.studentName} </td>
                     }
-                    <td> {clearance.reason} </td>
-                    <td> {clearance.logDate} </td>
+                    {
+                      isStudent && <td>{clearance.office}</td>
+                    }
+                    {
+                      isStudent && <td>{clearance.approverName} </td>
+                    }
+                    <td> {clearance.approvedDate} </td>
                     <td> {renderStatus(clearance.status)} </td>
-                    <td> {clearance.approverName} </td>
                     {
                       handleApproveClearanceButton(clearance)
                     }
@@ -252,6 +287,27 @@ const ListClearanceComponent = () => {
             }
           </tbody>
         </table>
+
+      {/* {
+        isStudent && <div>
+          <br></br><br></br>
+          <div className='grid-container'>
+          <div class="grid-item">Department Chairman: </div>
+          <div class="grid-item">College Dean: </div>
+          </div>
+          <div className='grid-container'>
+          <div class="grid-item">Date: </div>
+          <div class="grid-item">Date: </div>
+          </div>
+          <div className='grid-container'>
+          <div className='grid-item'>School Director:</div>
+          </div>
+          <div className='grid-container'>
+          <div className='grid-item'>Date:</div>
+          </div>
+      </div>
+      } */}
+      </div>
       </div>
     }
   }
@@ -260,11 +316,11 @@ const ListClearanceComponent = () => {
   function renderRequestClearanceButton() {
     var isAllApproved = false;
     if (isStudent && clearances.length === 0) {
-      return <Button onClick={handleClearanceRequest} variant="outlined" startIcon={<AddIcon />}>
+      return <Button onClick={handleClearanceRequest} variant="contained" color='success' startIcon={<AddIcon />}style={{marginTop: "100px" }}>
       REQUEST CLEARANCE
       </Button>
     } else if (isStudent) {
-      return <Button onClick={handleDeleteStudentClearanceRequest} variant="outlined" color="error" startIcon={<DeleteIcon />}>
+      return <Button onClick={handleDeleteStudentClearanceRequest} variant="contained" color="error" startIcon={<DeleteIcon />}style={{marginTop: "100px" }}>
       CANCEL CLEARANCE REQUESTS
       </Button>
     }

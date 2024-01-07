@@ -77,3 +77,9 @@ export const isFacultyHead = () => {
     || role === 'ROLE_REGISTRAR' || role === 'ROLE_FINANCE') return true
     else return false
 }
+
+export const isPrefectOfDiscipline = () => {
+    let role = sessionStorage.getItem("role")
+    if(role != null && role === 'ROLE_PREFECT_DISCIPLINE') return true
+    else return false
+}

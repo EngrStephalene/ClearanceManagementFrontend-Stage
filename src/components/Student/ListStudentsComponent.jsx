@@ -79,20 +79,20 @@ const ListStudentsComponent = () => {
 
   return (
     <div className='StudentComponent'>
-      <div className="input-group rounded">
+      {/* <div className="input-group rounded">
         <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
         <span className="input-group-text border-0" id="search-addon">
             <SearchIcon/>
         </span>
-      </div>
+      </div> */}
       <br></br>
       <h2 className='text-center'>LIST OF STUDENTS</h2>
       <br></br>
-      <Button onClick={handleAddStudent} variant="outlined" startIcon={<AddIcon />}>
+      <Button onClick={handleAddStudent} variant="contained" color="success" startIcon={<AddIcon />}>
         ADD STUDENT
       </Button>
       <br></br><br></br>
-      <table className='table table-striped table-bordered shadow'>
+      <table className='table table-striped table-bordered shadow' style={{width:"96%"}}>
         <thead>
           <tr>
             <th>STUDENT ID</th>
@@ -119,6 +119,7 @@ const ListStudentsComponent = () => {
                         color="secondary" 
                         aria-label="edit"
                         onClick={() => handleUpdateStudent(student)}
+                        style={{transform: 'scale(0.9)'}}
                       >
                         <EditIcon/>
                       </Fab>
@@ -126,14 +127,14 @@ const ListStudentsComponent = () => {
                         color="error" 
                         aria-label="delete"
                         onClick={() => handleDeleteStudent(student.id)}
-                        style={{marginLeft: "10px"}}
+                        style={{transform: 'scale(0.9)'}}
                        >
                         <DeleteIcon/>
                       </Fab>
                       <Fab
                       aria-label='violation' 
                       variant="extended"
-                      style={{marginLeft: "10px"}}
+                      style={{transform: 'scale(0.9)'}}
                       onClick={() => addViolation(student.firstName, student.lastName, student.studentNumber)}
                       color='success'>
                         <SentimentDissatisfiedIcon sx={{ mr: 1 }}/>

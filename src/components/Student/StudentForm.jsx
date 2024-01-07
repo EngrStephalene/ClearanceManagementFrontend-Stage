@@ -3,12 +3,17 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { addStudent } from '../../services/StudentService'
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const StudentForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
     const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
-
+      
     //INITIALIZE FORM VALUES
     const initialValues = {
         studentId: '',
@@ -21,9 +26,11 @@ const StudentForm = () => {
 
     //FUNCTION FOR FORM VALIDATION
     const validationSchema = Yup.object().shape({
-        firstname: Yup.string().min(3, "Remarks too short").required("Required"),
-        lastname: Yup.string().min(3, "Remarks too short").required("Required"),
-        address: Yup.string().min(3, "Action item too short. Please be descriptive.").required("Required")
+        firstname: Yup.string().min(3, "First Name too short").required("Required"),
+        lastname: Yup.string().min(2, "Last Name too short").required("Required"),
+        gender: Yup.string().min(2, "Gender required.").required("Required"),
+        yearLevel: Yup.string().min(1, "Gender required.").required("Required"),
+        address: Yup.string().min(3, "Address too short.").required("Required")
     })
 
     //FUNCTION TO HANDLE SUBMIT FORM
@@ -33,18 +40,21 @@ const StudentForm = () => {
         const firstName = values.firstname;
         const middleName = values.middlename;
         const lastName = values.lastname;
+        const gender = values.gender;
         const email = values.email;
         const address = values.address;
+        const birthday = values.birthday;
+        const yearLevel = values.yearLevel
         const student = {studentNumber, firstName, middleName, lastName, email, address}
         console.log(student)
         addStudent(student)
         .then((response) => {
             console.log(response.data)
+            alert("Success")
+            window.location.reload(true)
         }).catch(err => {
             console.log(err)
         })
-        alert("Successfully added student.")
-        window.location.reload(true)
         props.resetForm()
     }
 
@@ -68,7 +78,6 @@ const StudentForm = () => {
                         style={{marginBottom: "15px"}}
                         fullWidth
                         required
-                        
                         />
                         <Field 
                         as={TextField}
@@ -97,6 +106,33 @@ const StudentForm = () => {
                         error={props.errors.lastname && props.touched.lastname}
                                 helperText={<ErrorMessage name='lastname' />}
                         />
+                        <Field
+                        name = 'gender'
+                        label = 'Select Gender'
+                        component = 'select'
+                        style={{marginBottom: "15px"}}
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </Field>
+                        <div
+                        style={{marginBottom: "15px"}}
+                        >
+                            <label htmlFor="birthday">Birthday:</label>
+                            <br></br>
+                            <Field name="birthday">
+                                {({ field, form }) => (
+                                <DatePicker
+                                    id="birthday"
+                                    {...field}
+                                    selected={field.value}
+                                    onChange={(birthday) => form.setFieldValue(field.name, birthday)}
+                                />
+                                )}
+                            </Field>
+                            <ErrorMessage name="date" component="div" />
+                        </div>
                         <Field 
                         as={TextField}
                         name = 'email'
@@ -106,6 +142,18 @@ const StudentForm = () => {
                         error={props.errors.email && props.touched.email}
                                 helperText={<ErrorMessage name='actionItem' />}
                         />
+                        <Field
+                        name = 'yearLevel'
+                        label = 'Select Year Level'
+                        component = 'select'
+                        style={{marginTop: "15px"}}
+                        >
+                            <option value="">Select Year Level</option>
+                            <option value="First">I</option>
+                            <option value="Second">II</option>
+                            <option value="Third">III</option>
+                            <option value="Fourth">IV</option>
+                        </Field>
                         <Field 
                         as={TextField}
                         name = 'address'

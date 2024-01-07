@@ -125,17 +125,18 @@ const FacultyHeadForm = () => {
                         style={{marginTop: "15px"}}
                         >
                             <option value="">Select Office</option>
-                            <option value="treasurer">Department Treasurer</option>
-                            <option value="chairman">Department Chairman</option>
-                            <option value="sgAdviser">SG Adviser</option>
-                            <option value="campusMinistry">Campus Ministry</option>
-                            <option value="guidanceOffice">Office of the Guidance Center</option>
-                            <option value="libraryIncharge">Library In-charge</option>
-                            <option value="dispensaryIncharge">Dispensary In-charge</option>
-                            <option value="propertyCustodian">Property Custodian</option>
-                            <option value="prefectOfDiscipline">Prefect of Discipline</option>
-                            <option value="schoolRegistrar">Office of the School Registrar</option>
-                            <option value="finance">Cashier / Finance Office</option>
+                            <option value="Department Chairman">Department Chairman</option>
+                            <option value="College Dean">College Dean</option>
+                            <option value="School Director">College Dean</option>
+                            <option disabled value="SG Adviser">SG Adviser</option>
+                            <option disabled value="Campus Ministry">Campus Ministry</option>
+                            <option disabled value="Guidance Office">Office of the Guidance Center</option>
+                            <option disabled value="Library In-Charge">Library In-charge</option>
+                            <option disabled value="Dispensary In-Charge">Dispensary In-charge</option>
+                            <option disabled value="Property Custodian">Property Custodian</option>
+                            <option disabled value="Prefect Of Discipline">Prefect of Discipline</option>
+                            <option disabled alue="Registrar">Office of the School Registrar</option>
+                            <option disabled value="Finance">Cashier / Finance Office</option>
                         </Field>
                         <br></br>
                         <Button 

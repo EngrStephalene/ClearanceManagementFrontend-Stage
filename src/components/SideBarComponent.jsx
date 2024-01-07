@@ -133,7 +133,8 @@ const SideBarComponent = ({children}) => {
                   </div>
                   <div id='sidebarTitle'>CLEARANCE</div>
               </li>
-              <li 
+              {
+                (isAdmin || isFacultyH) &&  <li 
                 className='SidebarRow' 
                 onClick={handleDepartmentLink}
                 id={window.location.pathname == "/departments" ? "active" : ""}
@@ -145,7 +146,8 @@ const SideBarComponent = ({children}) => {
                   </div>
                   <div id='sidebarTitle'>DEPARTMENTS</div>
               </li>
-              <li 
+              }
+              {/* <li 
                 className='SidebarRow' 
                 onClick={handleSubjectLink}
                 id={window.location.pathname == "/subjects" ? "active" : ""}
@@ -156,23 +158,9 @@ const SideBarComponent = ({children}) => {
                     }
                   </div>
                   <div id='sidebarTitle'>SUBJECTS</div>
-              </li>
+              </li> */}
               {
-                isAdmin && <li 
-                className='SidebarRow' 
-                onClick={handleStudentLink}
-                id={window.location.pathname == "/students" ? "active" : ""}
-                >
-                  <div id='sidebarIcon'>
-                    {
-                      <Face4Icon/>
-                    }
-                  </div>
-                  <div id='sidebarTitle'>STUDENTS</div>
-              </li>
-              }
-              {
-                isFacultyH && <li 
+                (isAdmin || isFacultyH) && <li 
                 className='SidebarRow' 
                 onClick={handleStudentLink}
                 id={window.location.pathname == "/students" ? "active" : ""}

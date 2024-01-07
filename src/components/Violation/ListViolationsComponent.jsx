@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { deleteViolation, getAllViolation, markViolationAsComplete, getStudentViolations } from '../../services/ViolationService'
 import { useNavigate } from 'react-router-dom'
 import './Violation.css'
-import { Button, Alert, AlertTitle, Dialog, DialogContent, DialogTitle, Fab, Table, TablePagination } from '@mui/material';
+import { Button, Alert, AlertTitle, Dialog, DialogContent, DialogTitle, Fab, Table, TablePagination, Pagination } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import UpdateViolationForm from './UpdateViolationForm';
-import { isStudentUser, getUserId, isAdminUser, isFacultyHead, isFacultyUser } from '../../services/AuthService';
+import { isStudentUser, getUserId, isAdminUser, isFacultyHead, isFacultyUser, isPrefectOfDiscipline } from '../../services/AuthService';
 import { getStudentNumberByUserId, getStudentNameByUserId } from '../../services/StudentService';
 
 const ListViolationsComponent = () => {
@@ -25,6 +25,7 @@ const ListViolationsComponent = () => {
     const [studentNumber, setStudentNumber] = useState([])
     const [studentName, setStudentName] = useState([])
     const userId = getUserId()
+    const colorStyle = {width:"96%", marginBottom: 25, backgroundColor: "rgba(229, 226, 226, 0.545)",}
 
     useEffect(() => {
         getStudentIdFromDb(); //student id is referred to as student number in students table
@@ -111,7 +112,7 @@ const ListViolationsComponent = () => {
             return <Fab
             color='info' 
             variant="extended"
-            style={{marginLeft: "10px"}}
+            style={{transform: 'scale(0.9)'}}
             onClick={() => markComplete(violation.id)}
             disabled
             >
@@ -122,7 +123,7 @@ const ListViolationsComponent = () => {
             return <Fab
             color='info' 
             variant="extended"
-            style={{marginLeft: "10px"}}
+            style={{transform: 'scale(0.9)'}}
             onClick={() => markComplete(violation.id)}
             >
                 <NavigationIcon sx={{ mr: 1 }} />
@@ -145,7 +146,7 @@ const ListViolationsComponent = () => {
         console.log("RENDER VIOLATION LIST - ADMIN AND FACULTY ROLES.")
         if(violations.length === 0) {
             console.log("GET ALL VIOLATIONS RETURNED EMPTY.");
-            return <Alert severity='info'>
+            return <Alert severity='info' style={colorStyle}>
                 <AlertTitle>Info</AlertTitle>
                 <strong>NO STUDENT VIOLATIONS RECORD AT THIS TIME.</strong>
             </Alert>
@@ -156,8 +157,8 @@ const ListViolationsComponent = () => {
                     <thead>
                         <tr>
                             <th>Student Name</th>
-                            <th>Remarks</th>
-                            <th>Action Item</th>
+                            <th>Violation</th>
+                            <th>Action Taken</th>
                             <th>Reporter</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -180,19 +181,22 @@ const ListViolationsComponent = () => {
                                         color="secondary" 
                                         aria-label="edit"
                                         onClick={() => handleUpdateViolation(violation)}
+                                        style={{transform: 'scale(0.9)'}}
                                         >
                                             <EditIcon/>
                                         </Fab>
-                                        <Fab
-                                        color="error" 
-                                        aria-label="delete"
-                                        onClick={() => handleDelete(violation.id)}
-                                        style={{marginLeft: "10px"}}
-                                        >
-                                            <DeleteIcon/>
-                                        </Fab>
                                         {
-                                            renderMarkCompleteButton(violation)
+                                            isPrefectOfDiscipline && <Fab
+                                            color="error" 
+                                            aria-label="delete"
+                                            onClick={() => handleDelete(violation.id)}
+                                            style={{transform: 'scale(0.9)'}}
+                                            >
+                                                <DeleteIcon/>
+                                            </Fab>
+                                        }
+                                        {
+                                            isPrefectOfDiscipline() && renderMarkCompleteButton(violation)
                                         }
                                     </td>
                                 </tr>
@@ -219,10 +223,10 @@ const ListViolationsComponent = () => {
                 <table className='table table-bordered table-striped shadow'>
                     <thead>
                         <tr>
-                            <th>Log Date</th>
+                            <th>Reported Date</th>
+                            <th>Violation</th>
+                            <th>Action Taken</th>
                             <th>Remarks</th>
-                            <th>Action Item</th>
-                            <th>Reporter</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -233,8 +237,7 @@ const ListViolationsComponent = () => {
                                     <td>{violation.logDate}</td>
                                     <td>{violation.description}</td>
                                     <td>{violation.actionItem}</td>
-                                    <td>{violation.facultyName}</td>
-                                    {/* <td>{violation.completed ? 'COMPLETED': 'INCOMPLETE'}</td> */}
+                                    <td>{violation.completed ? 'COMPLETED': 'INCOMPLETE'}</td>
                                 </tr>
                             )
                         }

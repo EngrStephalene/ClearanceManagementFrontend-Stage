@@ -18,16 +18,16 @@ const ClearanceForm = () => {
 
     //FUNCTION FOR FORM VALIDATION
     const validationSchema = Yup.object().shape({
-        reason: Yup.string().min(3, "Reason too short").required("Required")
+        purpose: Yup.string().min(3, "Please select a purpose.").required("Required")
     })
 
 
     //FUNCTION TO HANDLE ADD ANNOUNCEMENT BUTTON
     const onSubmit = (values, props) => {
-        const reason = values.reason;
+        const reason = values.purpose;
         const clearance = {studentId, reason}
         console.log(clearance)
-        console.log("ADD DEPARTMENT API IS CALLED.")
+        console.log("ADD CLEARANCE API IS CALLED.")
         addClearance(clearance).then((response) => {
             console.log(response.data)
         }).catch(err => {
@@ -47,7 +47,7 @@ const ClearanceForm = () => {
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 {(props) => (
                     <Form>
-                        <Field 
+                        {/* <Field 
                         as={TextField}
                         name = 'reason'
                         label = 'Reason'
@@ -55,7 +55,21 @@ const ClearanceForm = () => {
                         required
                         error={props.errors.reason && props.touched.reason}
                                 helperText={<ErrorMessage name='reason' />}
-                        />
+                        /> */}
+                        <Field
+                        name = 'purpose'
+                        label = 'Select Purpose'
+                        component = 'select'
+                        style={{marginTop: "15px"}}
+                        error={props.errors.purpose && props.touched.purpose}
+                                helperText={<ErrorMessage name='purpose' />}
+                        >
+                            <option value="">Select Purpose</option>
+                            <option value="Mid Year">Mid Year</option>
+                            <option value="Year End">Year End</option>
+                            <option value="Transfer">Transfer</option>
+                            <option value="Graduation">Graduation</option>
+                        </Field>
                         <Button 
                         type='submit' style={btnStyle} 
                         variant='contained'

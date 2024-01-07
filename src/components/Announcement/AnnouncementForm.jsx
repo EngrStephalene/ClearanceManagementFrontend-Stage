@@ -3,23 +3,23 @@ import { Grid, Paper, Button, Typography, TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { addAnnouncement } from '../../services/AnnouncementService'
+import { getUserId } from '../../services/AuthService'
 
 const AnnouncementForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 250, }
     const btnStyle = { marginTop: 10 }
     const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
+    const reporterId = getUserId()
 
     //INITIALIZE FORM VALUES
     const initialValues = {
         title: '',
-        description: '',
         details: ''
     }
 
     //FUNCTION FOR FORM VALIDATION
     const validationSchema = Yup.object().shape({
         title: Yup.string().min(5, "Title too short").required("Required"),
-        description: Yup.string().min(5, "Description too short").required("Required"),
         details: Yup.string().min(5, "Details too short").required("Required")
     })
 
@@ -27,7 +27,11 @@ const AnnouncementForm = () => {
     const onSubmit = (values, props) => {
         console.log("ADD ANNOUNCEMENT SUBMIT BUTTON IS CLICKED.")
         // alert(JSON.stringify(values), null, 2)
-        addAnnouncement(values).then((response) => {
+        const title = values.title
+        const description = values.details
+        const request = {title, description, reporterId}
+        console.log(request)
+        addAnnouncement(request).then((response) => {
             console.log(response)
             alert("Successfully added announcement.")
             window.location.reload(true)
@@ -46,7 +50,7 @@ const AnnouncementForm = () => {
     <Grid>
         <Paper elevation={0} style={paperStyle}>
             <Grid align='center'>
-                <Typography variant='caption'>Fill the form to add an announcement.</Typography>
+                {/* <Typography variant='caption'>Fill the form to add an announcement.</Typography> */}
             </Grid>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 {(props) => (
@@ -61,15 +65,6 @@ const AnnouncementForm = () => {
                         error={props.errors.title && props.touched.title}
                                 helperText={<ErrorMessage name='title' />}
                         />
-                        <Field
-                        as={TextField}
-                        name = 'description'
-                        label = 'Description'
-                        style={{marginBottom: "15px"}}
-                        error={props.errors.description && props.touched.description}
-                                helperText={<ErrorMessage name='description' />}
-                        fullWidth
-                        required/>
                         <Field
                         as = {TextField}
                         name = 'details'

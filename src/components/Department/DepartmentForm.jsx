@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { addDepartment } from '../../services/DepartmentService'
 
 const DepartmentForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 250, }
@@ -23,7 +24,7 @@ const DepartmentForm = () => {
     //FUNCTION TO HANDLE ADD ANNOUNCEMENT BUTTON
     const onSubmit = (values, props) => {
         console.log("ADD DEPARTMENT API IS CALLED.")
-        axios.post('https://amiable-copper-production.up.railway.app/api/department/add', values)
+        addDepartment(values)
         .then((response) => {
           console.log(response.data);
           //instead of navigating to department list, create message box for alert

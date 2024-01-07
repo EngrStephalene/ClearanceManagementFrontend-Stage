@@ -2,6 +2,7 @@ import React from 'react'
 import { isUserLoggedIn, logout } from '../services/AuthService'
 import { NavLink, useNavigate } from 'react-router-dom'
 import logo from '../images/logo.png'
+import '../HeaderStyles.css'
 
 const HeaderComponent = () => {
   const isAuth = isUserLoggedIn()
@@ -13,19 +14,19 @@ const HeaderComponent = () => {
     window.location.reload(true);
   }
   return (
-    <div>
+    <div className='headerStyle'>
         <header>
-            <nav className="navbar navbar-light" id='headerNav'>
+            <nav className="navbar navbar-light" id='headerNav' style={{height:"95px"}}>
               <div className="container-fluid">
-                <a className="navbar-brand" href='https://clearance-management-frontend-stage.vercel.app/home'>
+                <a className="navbar-brand" href='https://amiable-copper-production.up.railway.app/home'>
                 <img src={logo} alt={"logo"} width='80' height='80'/>
-                  SAINT FRANCIS COLLEGE - GUIHULNGAN
+                  SAINT FRANCIS COLLEGE - GUIHULNGAN NEGROS ORIENTAL INCORPORATED
                 </a>
                 <ul className='navbar-nav'>
                   {
                     isAuth && 
                     <li className='nav-item'>
-                      <NavLink className='nav-link' onClick={handleLogout}>Logout.</NavLink>
+                      <NavLink className='nav-link' onClick={handleLogout}>Logout</NavLink>
                     </li>
                   }
                 </ul>

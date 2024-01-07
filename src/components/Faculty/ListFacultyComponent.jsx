@@ -22,6 +22,7 @@ const ListFacultyComponent = () => {
   const [officeOfSelectedFaculty, setOfficeOfSelectedFaculty] = useState([])
   const isAdmin = isAdminUser();
   const isFacultyH = isFacultyHead();
+  const deleteButtonStyle = {transform: 'scale(0.9)'}
 
   useEffect(() => {
     console.log(isAdmin)
@@ -83,6 +84,7 @@ const ListFacultyComponent = () => {
       color="secondary" 
       aria-label="edit"
       onClick={() => handleUpdateFaculty(faculty)}
+      style={{ transform: 'scale(0.9)' }}
       disabled
       >
       <EditIcon/>
@@ -92,6 +94,7 @@ const ListFacultyComponent = () => {
       color="secondary" 
       aria-label="edit"
       onClick={() => handleUpdateFaculty(faculty)}
+      style={{ transform: 'scale(0.9)' }}
       >
       <EditIcon/>
       </Fab>
@@ -105,7 +108,7 @@ const ListFacultyComponent = () => {
           color="error" 
           aria-label="delete"
           onClick={() => handleDeleteFaculty(id)}
-          style={{marginLeft: "10px"}}
+          style={deleteButtonStyle}
           disabled
          >
           <DeleteIcon/>
@@ -115,7 +118,7 @@ const ListFacultyComponent = () => {
         color="error" 
         aria-label="delete"
         onClick={() => handleDeleteFaculty(id)}
-        style={{marginLeft: "10px"}}
+        style={deleteButtonStyle}
       >
         <DeleteIcon/>
       </Fab>
@@ -134,25 +137,24 @@ const ListFacultyComponent = () => {
       <br></br>
       {
         isAdmin || isFacultyH &&
-        <Button onClick={handleAddFaculty} variant='outlined' startIcon={<AddIcon />}>
+        <Button onClick={handleAddFaculty} variant='contained' color='success' startIcon={<AddIcon />}>
           ADD FACULTY
         </Button>
       }
       {
         isAdmin && 
-        <Button style={{marginLeft: "15px"}} onClick={handleAddFacultyHead} variant='outlined' startIcon={<AddIcon />}>
-          ADD FACULTY HEAD
+        <Button style={{marginLeft: "15px"}} onClick={handleAddFacultyHead} variant='contained' color='success' startIcon={<AddIcon />}>
+          ADD FACULTY
         </Button>
       }
       
       <br></br><br></br>
-      <table className='table table-striped table-bordered shadow'>
+      <table className='table table-striped table-bordered shadow' style={{width:"96%"}}>
         <thead>
           <tr>
             <th>FACULTY ID</th>
-            <th>FIRST NAME</th>
-            <th>MIDDLE NAME</th>
-            <th>LAST NAME</th>
+            <th>NAME</th>
+            <th>Office</th>
             <th>EMAIL</th>
             <th>ADDRESS</th>
             <th>ACTION</th>
@@ -163,9 +165,8 @@ const ListFacultyComponent = () => {
                 faculties.map( faculty =>
                     <tr key={faculty.id}>
                       <td> {faculty.facultyNumber} </td>
-                      <td> {faculty.firstName} </td>
-                      <td> {faculty.middleName} </td>
-                      <td> {faculty.lastName} </td>
+                      <td> {faculty.firstName} {faculty.lastName}</td>
+                      <td> {faculty.facultyOffice} </td>
                       <td> {faculty.email} </td>
                       <td> {faculty.address} </td>
                       <td>

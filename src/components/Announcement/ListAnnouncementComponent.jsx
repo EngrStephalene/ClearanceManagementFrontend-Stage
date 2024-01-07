@@ -8,14 +8,20 @@ import AnnouncementForm from './AnnouncementForm';
 import CloseIcon from '@mui/icons-material/Close';
 import { isAdminUser } from '../../services/AuthService';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import EditAnnouncementForm from './EditAnnouncementForm';
+
 
 
 const ListAnnouncementComponent = () => {
   const [announcements, setAnnouncements] = useState([])
   const [color, setColor] = useState("default");
   const [open, setOpen] = useState(false)
+  const [editFormOpen, setEditFormOpen] = useState(false)
+  const [selectedAnnouncementForEdit, setSelectedAnnouncementForEdit] = useState([])
   const isAdmin = isAdminUser();
   const btnStyle = { marginTop: 10, marginLeft: 150 }
+  const cardStyle = {marginBottom: 25, backgroundColor: "rgba(229, 226, 226, 0.545)"}
   
   //FUNCTION TO HANDLE THE LIKE BUTTON FOR EACH CARD
   const handleColor = () => {
@@ -47,6 +53,12 @@ const ListAnnouncementComponent = () => {
     setOpen(true)
   }
 
+  function handleEditAnnouncement(announcement) {
+    console.log("EDIT ANNOUNCEMENT BUTTON IS CLICKED.")
+    setSelectedAnnouncementForEdit(announcement)
+    setEditFormOpen(true)
+  }
+
   function handleDeleteAnnouncement(id) {
     console.log("Delete button is clicked. " + id);
     deleteAnnouncement(id).then((response) => {
@@ -60,64 +72,86 @@ const ListAnnouncementComponent = () => {
     })
   }
 
+
+
+
+  
   //THIS FUNCTION IS TO HANDLE THE RENDERING OF ANNOUNCEMENTS IN THE HOME PAGE
   function renderAnnouncements() {
-    if(announcements.length === 0) {
-      console.log("GET ALL ANNOUNCENMENTS IS EMPTY.")
-      return <Alert severity="info">
-      <AlertTitle>Info</AlertTitle>
-      <strong>THERE ARE NO ANNOUNCEMENTS AT THIS TIME.</strong>
-      </Alert>
+    if (announcements.length === 0) {
+      console.log("GET ALL ANNOUNCEMENTS IS EMPTY.");
+      return (
+        <Alert severity="info" style={{ backgroundColor: "rgba(229, 226, 226, 0.545)", marginTop: "50px"}}>
+          <AlertTitle>Info</AlertTitle>
+          <strong className="announcement-alert">THERE ARE NO ANNOUNCEMENTS AT THIS TIME.</strong>
+        </Alert>
+      );
     } else {
       console.log("GET ALL ANNOUNCEMENTS IS NOT EMPTY.")
       return <div className='mui-card'>
-        <h2>Latest Announcements</h2>
-        {
-          announcements.map(announcement =>
-            <Card key={announcement.id} style={{marginBottom: "25px"}}>
-              <CardHeader
-                title = {announcement.title}
-                subheader = {announcement.description}
-                action = {
-                  <IconButton onClick={handleColor}>
-                    <RecommendIcon color={color} />
-                  </IconButton>
-                }
-              ></CardHeader>
-              <CardContent>
-                <Typography variant='body1'>
-                  Reported Date:
-                  {announcement.reportedDate}
-                </Typography>
-                <Typography variant='body2'>
-                  {announcement.subDescription}
-                </Typography>
-                {
-                  isAdmin && <Fab
-                  color="error" 
-                  aria-label="delete"
-                  onClick={() => handleDeleteAnnouncement(announcement.id)}
-                  >
-                      <DeleteIcon/>
-                  </Fab>
-                }
-              </CardContent>
-            </Card>
-          )
-        }
+        <h2 style={{marginBottom: "50px"}}>Latest Announcements</h2>
+        
+        <div className='vince' style={{width:"97%"}}>
+          {
+            announcements.map(announcement =>
+              <Card key={announcement.id} style={cardStyle}>
+                <CardHeader
+                  title = {announcement.title}
+                  subheader = {announcement.description}
+                  // action = {
+                  //   <IconButton onClick={handleColor}>
+                  //     <RecommendIcon color={color} />
+                  //   </IconButton>
+                  // }
+                ></CardHeader>
+                <CardContent>
+                  <Typography variant='body1'>
+                    Announcement Date:<br></br>
+                    {announcement.reportedDate}
+                  </Typography>
+                  <br></br>
+                  <Typography variant='body1'>
+                    Announced by:<br></br>
+                    {announcement.reporter}
+                  </Typography>
+                  {
+                    isAdmin && <Fab
+                    color="error" 
+                    aria-label="delete"
+                    style={{ transform: 'scale(0.7)' }}
+                    onClick={() => handleDeleteAnnouncement(announcement.id)}
+                    >
+                        <DeleteIcon/>
+                    </Fab>
+                  }
+                  {
+                    isAdmin && <Fab
+                    onClick={() => handleEditAnnouncement(announcement)}
+                    color="secondary" 
+                    aria-label="edit"
+                    style={{ transform: 'scale(0.7)' }}
+                    >
+                        <EditIcon/>
+                    </Fab>
+                  }
+                </CardContent>
+              </Card>
+              
+            )
+          }
+        </div>
       </div>
-    }
+    } 
   }
-
   return (
     <div className='AnnouncementComponent'>
-      <Stack spacing={2}>
+      {/* <Stack spacing={2}>
         <Alert severity="info" onClose={() => {close}}>This is sample.</Alert>
-      </Stack>
+      </Stack> */}
       <br></br><br></br>
       {
         isAdmin &&
-        <Button onClick={handleAddAnnouncement} variant="outlined" startIcon={<AddIcon />}>
+        <Button onClick={handleAddAnnouncement} variant="contained" color= 'success' startIcon={<AddIcon />}>
         Add Announcement
         </Button>
       }
@@ -138,6 +172,27 @@ const ListAnnouncementComponent = () => {
           <DialogTitle>ADD ANNOUNCEMENT</DialogTitle>
           <DialogContent dividers>
             <AnnouncementForm/>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog 
+        open={editFormOpen}
+        onClose = {() => setEditFormOpen(false)}
+        >
+          <Button 
+          color='primary'
+          onClick={() => setEditFormOpen(false)}
+          style={{marginLeft: "235px"}}
+          >
+            <CloseIcon/>
+          </Button>
+          <DialogTitle>EDIT ANNOUNCEMENT</DialogTitle>
+          <DialogContent dividers>
+            <EditAnnouncementForm
+            pId = {selectedAnnouncementForEdit.id}
+            pTitle = {selectedAnnouncementForEdit.title}
+            pDetails = {selectedAnnouncementForEdit.description}
+            />
           </DialogContent>
         </Dialog>
     </div>

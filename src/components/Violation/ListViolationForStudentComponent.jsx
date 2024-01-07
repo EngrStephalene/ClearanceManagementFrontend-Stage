@@ -51,7 +51,6 @@ const ListViolationForStudentComponent = () => {
                         <tr>
                             <th>Remarks</th>
                             <th>Action Item</th>
-                            <th>Reporter</th>
                             <th>Status</th>
                         </tr>
                         <tbody>
@@ -60,7 +59,6 @@ const ListViolationForStudentComponent = () => {
                                     <tr key={violation.id}>
                                         <td>{violation.description}</td>
                                         <td>{violation.actionItem}</td>
-                                        <td>{violation.facultyId}</td>
                                         <td>{violation.completed ? 'RESOLVED': 'UNRESOLVED'}</td>
                                     </tr>
                                     )

@@ -22,9 +22,10 @@ const UpdateStudentForm = (params) => {
 
     //FUNCTION FOR FORM VALIDATION
     const validationSchema = Yup.object().shape({
-        firstname: Yup.string().min(3, "Remarks too short").required("Required"),
-        lastname: Yup.string().min(3, "Remarks too short").required("Required"),
-        address: Yup.string().min(3, "Action item too short. Please be descriptive.").required("Required")
+        firstname: Yup.string().min(3, "First Name too short").required("Required"),
+        lastname: Yup.string().min(2, "Last Name too short").required("Required"),
+        gender: Yup.string().min(2, "Gender required.").required("Required"),
+        address: Yup.string().min(3, "Address too short.").required("Required")
     })
 
     //FUNCTION TO HANDLE SUBMIT FORM
@@ -44,12 +45,11 @@ const UpdateStudentForm = (params) => {
         .then((response) => {
             console.log(response.data)
             alert("Successfully updated student information.")
-            window.location.reload(true)
         }).catch(err => {
             console.log(err)
             alert("There was an error while updating student information. Kindly contact administrator.")
-            window.location.reload(true)
         })
+        window.location.reload(true)
         props.resetForm()
     }
 
@@ -102,6 +102,16 @@ const UpdateStudentForm = (params) => {
                         error={props.errors.lastname && props.touched.lastname}
                                 helperText={<ErrorMessage name='lastname' />}
                         />
+                        <Field
+                        name = 'gender'
+                        label = 'Select Gender'
+                        component = 'select'
+                        style={{marginBottom: "15px"}}
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="treasurer">Male</option>
+                            <option value="treasurer">Female</option>
+                        </Field>
                         <Field 
                         as={TextField}
                         name = 'email'

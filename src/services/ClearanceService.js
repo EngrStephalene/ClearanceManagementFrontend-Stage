@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./AuthService";
 
-const CLEARANCE_REST_API_BASE_URL = 'https://amiable-copper-production.up.railway.app/api/clearance/';
+const CLEARANCE_REST_API_BASE_URL = 'hhttps://amiable-copper-production.up.railway.app/api/clearance/';
 
 
 // Add a request interceptor
@@ -17,6 +17,8 @@ axios.interceptors.request.use(function (config) {
 export const getAllClearanceRequest = () => axios.get(CLEARANCE_REST_API_BASE_URL)
 
 export const getClearanceByStudentId = (studentId) => axios.get(CLEARANCE_REST_API_BASE_URL + studentId)
+
+export const getStudentInformationForHeader = (userId) => axios.get(CLEARANCE_REST_API_BASE_URL + 'student-info/' + userId)
 
 export const getClearanceByFacultyId = (facultyId) => axios.get('https://amiable-copper-production.up.railway.app/api/clearance/faculty/' + facultyId)
 

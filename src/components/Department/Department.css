@@ -3,3 +3,11 @@
     font-weight: bold;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.table th{
+    background-color: rgba(229, 226, 226, 0.545) !important;
+}
+
+.table td{
+    background-color: rgba(229, 226, 226, 0.545) !important;
+}

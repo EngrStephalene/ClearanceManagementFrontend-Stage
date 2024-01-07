@@ -3,3 +3,43 @@
     font-weight: bold;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.test {
+    background-color: rgba(229, 226, 226, 0.589);
+    background-size: 95%;
+    width: 95%;
+    display: block;
+}
+
+.lists {
+    background-color: rgba(229, 226, 226, 0.545);
+    border: 2px solid rgba(255, 255, 255, 0.47);
+    padding: 5px;
+    width: 100%;
+}
+
+.grid-container{
+    display: flex;
+    background-color: rgba(229, 226, 226, 0.545);
+    width: 100%;
+}
+
+.grid-container2{
+    display: flex;
+    background-color: rgba(229, 226, 226, 0.545);
+    width: 100%;
+    text-align: center;
+}
+
+.grid-item {
+    color: black;
+    font-size: 20px;
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.47);
+    padding: 5px;
+}
+
+.input1 {
+    width: 76%;
+    margin-left: 20px;
+}

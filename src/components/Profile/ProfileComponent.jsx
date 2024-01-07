@@ -151,7 +151,7 @@ const ProfileComponent = () => {
               <li>Address: {userInformation.address}</li>
               <li>Email Address: {userInformation.email}</li>
             </ul>
-            <p style={{color:"brown"}}><strong>Click the button to update the user information.</strong></p>
+            <p style={{color:"brown"}}><strong>Click the button to edit user information.</strong></p>
             <Fab
             onClick={() => handleUpdateUser()}
             color="secondary" 
