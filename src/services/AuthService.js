@@ -63,18 +63,19 @@ export const isFacultyUser = () => {
 
 export const isStudentUser = () => {
     let role = sessionStorage.getItem("role")
-    if(role != null && role === 'ROLE_STUDENT') return true
+    if(role != null && role === 'ROLE_STUDENT' || role === 'ROLE_STUDENT_SG_PRESIDENT'
+    || role === 'ROLE_STUDENT_DEPARTMENT_GOV') return true
     else return false
 }
 
 export const isFacultyHead = () => {
     let role = sessionStorage.getItem("role")
-    if(role != null && role === 'ROLE_FACULTY_HEAD' || role === 'ROLE_TREASURER'
-    || role === 'ROLE_CHAIRMAN' || role === 'ROLE_SG_ADVISER'
-    || role === 'ROLE_CAMPUS_MINISTRY' || role === 'ROLE_GUIDANCE_OFFICE'
+    if(role != null && role === 'ROLE_CAMPUS_MINISTRY' || role === 'ROLE_GUIDANCE_OFFICE'
     || role === 'ROLE_LIBRARIAN' || role === 'ROLE_DISPENSARY'
     || role === 'ROLE_PROPERTY_CUSTODIAN' || role === 'ROLE_PREFECT_DISCIPLINE'
-    || role === 'ROLE_REGISTRAR' || role === 'ROLE_FINANCE') return true
+    || role === 'ROLE_REGISTRAR' || role === 'ROLE_FINANCE'
+    || role === 'ROLE_COLLEGE_DEAN' || role === 'ROLE_SCHOOL_DIRECTOR'
+    || role === 'ROLE_DEPARTMENT_CHAIRMAN' || role === 'ROLE_SG_ADVISER') return true
     else return false
 }
 
