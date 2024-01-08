@@ -160,7 +160,7 @@ const FacultyHeadForm = () => {
                             <option value="">Select Office</option>
                             <option value="Department Chairman">Department Chairman</option>
                             <option value="College Dean">College Dean</option>
-                            <option value="School Director">College Dean</option>
+                            <option value="School Director">School Director</option>
                             <option disabled value="SG Adviser">SG Adviser</option>
                             <option disabled value="Campus Ministry">Campus Ministry</option>
                             <option disabled value="Guidance Office">Office of the Guidance Center</option>
