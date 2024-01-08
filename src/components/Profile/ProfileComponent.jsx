@@ -151,7 +151,7 @@ const ProfileComponent = () => {
               <li>Address: {userInformation.address}</li>
               <li>Email Address: {userInformation.email}</li>
               <li>Gender: {userInformation.gender}</li>
-              <li>Birthday: {userInformation.birthday}</li>
+              <li>Birthday YYYY-MM-DD: {userInformation.birthday}</li>
               {
                 isStudent && <li>Year Level: {userInformation.yearLevel} Year</li>
               }
