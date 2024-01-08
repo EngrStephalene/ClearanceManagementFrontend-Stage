@@ -47,11 +47,13 @@ const FacultyHeadForm = () => {
         addFacultyHead(faculty)
         .then((response) => {
             console.log(response.data)
+            alert("Successfully added faculty head.")
+            window.location.reload(true)
         }).catch(err => {
             console.log(err)
+            alert("There was an error while adding faculty. Kindly contact administrator.")
+            window.location.reload(true)
         })
-        alert("Successfully added faculty head.")
-        window.location.reload(true)
         props.resetForm()
     }
 

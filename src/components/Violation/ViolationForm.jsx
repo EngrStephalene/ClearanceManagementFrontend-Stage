@@ -57,11 +57,17 @@ const ViolationForm = (params) => {
         const violation = {facultyId, completed, description, actionItem}
 
         createViolation(studentNumber, violation)
+        .then((response) => {
+            console.log(response.data)
+            alert("Successfully added student violation.")
+            window.location.reload(true)
+        }).catch(err => {
+            console.log(err)
+            alert("There was an error while adding violation. Kindly contact admin.")
+            window.location.reload(true)
+        })
 
         props.resetForm()
-
-        alert("Successful!")
-        window.location.reload(true)
     }
 
   return (
