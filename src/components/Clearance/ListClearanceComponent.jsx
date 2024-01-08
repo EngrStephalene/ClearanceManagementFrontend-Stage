@@ -251,7 +251,9 @@ const ListClearanceComponent = () => {
               {
                 isStudent && <th>APPROVER</th>
               }
-              <th>APPROVED DATE</th>
+              {
+                isStudent && <th>APPROVED DATE</th>
+              }
               <th>STATUS</th>
               {
                 (isAdmin || isFaculty || isFacultyH) && <th>Approve Clearance</th>
@@ -274,7 +276,9 @@ const ListClearanceComponent = () => {
                     {
                       isStudent && <td>{clearance.approverName} </td>
                     }
-                    <td> {clearance.approvedDate} </td>
+                    {
+                      isStudent && <td> {clearance.approvedDate} </td>
+                    }
                     <td> {renderStatus(clearance.status)} </td>
                     {
                       handleApproveClearanceButton(clearance)
