@@ -1,4 +1,4 @@
-import { Typography, Grid, Paper, Button, TextField } from '@mui/material'
+import { Typography, Grid, Paper, Button, TextField, Alert } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
@@ -8,6 +8,7 @@ const UpdateViolationForm = (params) => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
     const{violationId, facultyId, studentId, studentName, violationDescription, violationActionItem} = params;
+    onst [error,setError]=useState();
 
     //INITIALIZE FORM VALUES
     const initialValues = {
@@ -34,7 +35,7 @@ const UpdateViolationForm = (params) => {
             window.location.reload(true)
         }).catch(err => {
             console.log(err)
-            alert("There was an error while updating violation. Kindly contact admin for support.")
+            setError('There was an error while updating violation. Kindly contact admin for support.')
             window.location.reload(true)
         })
 
@@ -44,6 +45,7 @@ const UpdateViolationForm = (params) => {
     return (
     <Grid>
         <Paper elevation={0} style={paperStyle}>
+            {error?<Alert severity="error">{error}</Alert>:null}
             <Grid align='center'>
                 <Typography variant='caption'>Fill the form to update violation for student.</Typography>
             </Grid>
