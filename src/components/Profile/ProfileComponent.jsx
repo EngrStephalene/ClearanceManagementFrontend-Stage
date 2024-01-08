@@ -33,7 +33,14 @@ const ProfileComponent = () => {
     const username = getLoggedInUser();
     const role = getRole();
     const roleArr = role.split("_");
-    setDisplayRole(roleArr[1])
+
+    let text = ""
+    for(let i=1; i<roleArr.length; i++) {
+      text += roleArr[i]
+      text += " "
+    }
+
+    setDisplayRole(text)
 
     const info = {userId, username, role}
 
