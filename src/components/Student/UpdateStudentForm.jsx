@@ -24,7 +24,7 @@ const UpdateStudentForm = (params) => {
     const validationSchema = Yup.object().shape({
         firstname: Yup.string().min(3, "First Name too short").required("Required"),
         lastname: Yup.string().min(2, "Last Name too short").required("Required"),
-        gender: Yup.string().min(2, "Gender required.").required("Required"),
+        // gender: Yup.string().min(2, "Gender required.").required("Required"),
         address: Yup.string().min(3, "Address too short.").required("Required")
     })
 
@@ -102,7 +102,7 @@ const UpdateStudentForm = (params) => {
                         error={props.errors.lastname && props.touched.lastname}
                                 helperText={<ErrorMessage name='lastname' />}
                         />
-                        <Field
+                        {/* <Field
                         name = 'gender'
                         label = 'Select Gender'
                         component = 'select'
@@ -111,7 +111,7 @@ const UpdateStudentForm = (params) => {
                             <option value="">Select Gender</option>
                             <option value="treasurer">Male</option>
                             <option value="treasurer">Female</option>
-                        </Field>
+                        </Field> */}
                         <Field 
                         as={TextField}
                         name = 'email'

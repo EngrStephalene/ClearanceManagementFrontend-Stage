@@ -111,6 +111,7 @@ const StudentForm = () => {
                         label = 'Select Gender'
                         component = 'select'
                         style={{marginBottom: "15px"}}
+                        required
                         >
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>

@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { addFacultyHead } from '../../services/FacultyService'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const FacultyHeadForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
@@ -24,6 +26,7 @@ const FacultyHeadForm = () => {
     const validationSchema = Yup.object().shape({
         firstname: Yup.string().min(3, "Remarks too short").required("Required"),
         lastname: Yup.string().min(3, "Remarks too short").required("Required"),
+        gender: Yup.string().min(2, "Gender required.").required("Required"),
         address: Yup.string().min(3, "Action item too short. Please be descriptive.").required("Required")
     })
 
@@ -36,8 +39,10 @@ const FacultyHeadForm = () => {
         const lastName = values.lastname;
         const email = values.email;
         const address = values.address;
+        const birthday = values.birthday;
+        const gender = values.gender;
         const role = values.office;
-        const faculty = {facultyNumber, email, firstName, middleName, lastName, address, role};
+        const faculty = {facultyNumber, email, firstName, middleName, lastName, address, role, gender, birthday};
         console.log(faculty)
         addFacultyHead(faculty)
         .then((response) => {
@@ -99,6 +104,34 @@ const FacultyHeadForm = () => {
                         error={props.errors.lastname && props.touched.lastname}
                                 helperText={<ErrorMessage name='lastname' />}
                         />
+                        <Field
+                        name = 'gender'
+                        label = 'Select Gender'
+                        component = 'select'
+                        style={{marginBottom: "15px"}}
+                        required
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </Field>
+                        <div
+                        style={{marginBottom: "15px"}}
+                        >
+                            <label htmlFor="birthday">Birthday:</label>
+                            <br></br>
+                            <Field name="birthday">
+                                {({ field, form }) => (
+                                <DatePicker
+                                    id="birthday"
+                                    {...field}
+                                    selected={field.value}
+                                    onChange={(birthday) => form.setFieldValue(field.name, birthday)}
+                                />
+                                )}
+                            </Field>
+                            <ErrorMessage name="date" component="div" />
+                        </div>
                         <Field 
                         as={TextField}
                         name = 'email'

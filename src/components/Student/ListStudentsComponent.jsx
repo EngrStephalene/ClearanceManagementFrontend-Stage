@@ -96,6 +96,7 @@ const ListStudentsComponent = () => {
         <thead>
           <tr>
             <th>STUDENT ID</th>
+            <th>YEAR LEVEL</th>
             <th>FIRST NAME</th>
             <th>MIDDLE NAME</th>
             <th>LAST NAME</th>
@@ -109,6 +110,7 @@ const ListStudentsComponent = () => {
               students.map( student =>
                   <tr key={student.id}>
                     <td> {student.studentNumber} </td>
+                    <td> {student.yearLevel} </td>
                     <td> {student.firstName} </td>
                     <td> {student.middleName} </td>
                     <td> {student.lastName} </td>

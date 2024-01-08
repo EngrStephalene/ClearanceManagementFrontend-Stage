@@ -23,6 +23,7 @@ const FacultyForm = () => {
     const validationSchema = Yup.object().shape({
         firstname: Yup.string().min(3, "Remarks too short").required("Required"),
         lastname: Yup.string().min(3, "Remarks too short").required("Required"),
+        gender: Yup.string().min(2, "Gender required.").required("Required"),
         address: Yup.string().min(3, "Action item too short. Please be descriptive.").required("Required")
     })
 
@@ -98,6 +99,17 @@ const FacultyForm = () => {
                         error={props.errors.lastname && props.touched.lastname}
                                 helperText={<ErrorMessage name='lastname' />}
                         />
+                        <Field
+                        name = 'gender'
+                        label = 'Select Gender'
+                        component = 'select'
+                        style={{marginBottom: "15px"}}
+                        required
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </Field>
                         <Field 
                         as={TextField}
                         name = 'email'
