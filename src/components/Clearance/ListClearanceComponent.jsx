@@ -248,9 +248,7 @@ const ListClearanceComponent = () => {
               {
                 isStudent && <th>NAME OF OFFICE</th>
               }
-              {
-                isStudent && <th>APPROVER</th>
-              }
+              <th>APPROVER</th>
               {
                 isStudent && <th>APPROVED DATE</th>
               }
@@ -273,9 +271,7 @@ const ListClearanceComponent = () => {
                     {
                       isStudent && <td>{clearance.office}</td>
                     }
-                    {
-                      isStudent && <td>{clearance.approverName} </td>
-                    }
+                    <td>{clearance.approverName} </td>
                     {
                       isStudent && <td> {clearance.approvedDate} </td>
                     }
