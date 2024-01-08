@@ -11,6 +11,8 @@ const ClearanceRejectForm = (params) => {
     const btnStyle = { marginTop: 10 }
     const{id} = params;
 
+    const [error,setError]=useState();
+
     //INITIALIZE FORM VALUES
     const initialValues = {
         remarks: ''
@@ -31,16 +33,18 @@ const ClearanceRejectForm = (params) => {
         const rejectClearance = {id, remarks}
         markClearanceAsReject(rejectClearance).then((response) => {
             console.log(response.data)
+            window.location.reload(true)
         }).catch(err => {
             console.log(err)
+            setError('There was an error while rejecting clearace. Kindly contact admin for support.')
         })
         props.resetForm()
-        window.location.reload(true)
     }
 
   return (
     <Grid>
         <Paper elevation={0} style={paperStyle}>
+            {error?<Alert severity="error">{error}</Alert>:null}
             <Grid align='center'>
                 <Typography variant='caption'>Fill the form to reject clearance.</Typography>
             </Grid>
