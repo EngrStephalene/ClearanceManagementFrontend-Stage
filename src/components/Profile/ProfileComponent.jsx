@@ -150,6 +150,11 @@ const ProfileComponent = () => {
               <li>Role: {displayRole} </li>
               <li>Address: {userInformation.address}</li>
               <li>Email Address: {userInformation.email}</li>
+              <li>Gender: {userInformation.gender}</li>
+              <li>Birthday: {userInformation.birthday}</li>
+              {
+                isStudent && <li>Year Level: {userInformation.yearLevel} Year</li>
+              }
             </ul>
             <p style={{color:"brown"}}><strong>Click the button to edit user information.</strong></p>
             <Fab

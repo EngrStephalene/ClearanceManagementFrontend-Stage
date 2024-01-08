@@ -45,7 +45,7 @@ const StudentForm = () => {
         const address = values.address;
         const birthday = values.birthday;
         const yearLevel = values.yearLevel
-        const student = {studentNumber, firstName, middleName, lastName, email, address}
+        const student = {studentNumber, firstName, middleName, lastName, email, address, birthday, yearLevel, gender}
         console.log(student)
         addStudent(student)
         .then((response) => {
@@ -113,8 +113,8 @@ const StudentForm = () => {
                         style={{marginBottom: "15px"}}
                         >
                             <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </Field>
                         <div
                         style={{marginBottom: "15px"}}
