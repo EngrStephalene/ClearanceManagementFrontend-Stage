@@ -8,7 +8,7 @@ const UpdateViolationForm = (params) => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
     const{violationId, facultyId, studentId, studentName, violationDescription, violationActionItem} = params;
-    onst [error,setError]=useState();
+    const [error,setError]=useState();
 
     //INITIALIZE FORM VALUES
     const initialValues = {
