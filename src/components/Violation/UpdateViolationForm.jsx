@@ -30,14 +30,15 @@ const UpdateViolationForm = (params) => {
         updateViolation(violationId, violation)
         .then((response) => {
             console.log(response.data)
+            alert("Successfully updated violation.")
+            window.location.reload(true)
         }).catch(err => {
             console.log(err)
+            alert("There was an error while updating violation. Kindly contact admin for support.")
+            window.location.reload(true)
         })
 
         props.resetForm()
-
-        alert("Successful!")
-        window.location.reload(true)
     }
 
     return (

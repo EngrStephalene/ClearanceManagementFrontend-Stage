@@ -18,7 +18,7 @@ const HeaderComponent = () => {
         <header>
             <nav className="navbar navbar-light" id='headerNav' style={{height:"95px"}}>
               <div className="container-fluid">
-                <a className="navbar-brand" href='https://amiable-copper-production.up.railway.app/home'>
+                <a className="navbar-brand" href='https://clearance-management-frontend-stage.vercel.app/home'>
                 <img src={logo} alt={"logo"} width='80' height='80'/>
                   SAINT FRANCIS COLLEGE - GUIHULNGAN NEGROS ORIENTAL INCORPORATED
                 </a>
