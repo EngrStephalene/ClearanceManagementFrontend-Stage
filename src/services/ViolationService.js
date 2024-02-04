@@ -21,7 +21,9 @@ export const getAllViolation = () => axios.get("https://amiable-copper-productio
 
 export const getStudentViolations = (studentId) => axios.get(BASE_REST_API_URL + 'student/' + studentId)
 
-export const createViolation = (studentNumber, violation) => axios.post('https://amiable-copper-production.up.railway.app/api/violation/add/' + studentNumber , violation);
+export function createViolation(studentNumber, violation) {
+    axios.post('https://amiable-copper-production.up.railway.app/api/violation/add/' + studentNumber , violation);
+}
 
 export const deleteViolation = (id) => axios.delete(BASE_REST_API_URL + id)
 

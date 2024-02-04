@@ -1,4 +1,4 @@
-import { Typography, Grid, Paper, Button, TextField, Alert } from '@mui/material'
+import { Typography, Grid, Paper, Button, TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
@@ -10,8 +10,6 @@ const ClearanceRejectForm = (params) => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 250, }
     const btnStyle = { marginTop: 10 }
     const{id} = params;
-
-    const [error,setError]=useState();
 
     //INITIALIZE FORM VALUES
     const initialValues = {
@@ -33,18 +31,16 @@ const ClearanceRejectForm = (params) => {
         const rejectClearance = {id, remarks}
         markClearanceAsReject(rejectClearance).then((response) => {
             console.log(response.data)
-            window.location.reload(true)
         }).catch(err => {
             console.log(err)
-            setError('There was an error while rejecting clearace. Kindly contact admin for support.')
         })
         props.resetForm()
+        window.location.reload(true)
     }
 
   return (
     <Grid>
         <Paper elevation={0} style={paperStyle}>
-            {error?<Alert severity="error">{error}</Alert>:null}
             <Grid align='center'>
                 <Typography variant='caption'>Fill the form to reject clearance.</Typography>
             </Grid>

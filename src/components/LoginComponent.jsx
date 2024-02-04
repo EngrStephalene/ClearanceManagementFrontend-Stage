@@ -4,14 +4,12 @@ import { loginAPICall, storeToken, saveLoggedUser } from "../services/AuthServic
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import logoImage from '../images/logo.png';
-import { Alert } from "@mui/material";
 import './Login.css'
 
 const LoginComponent = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error,setError]=useState();
 
   const navigator = useNavigate();
 
@@ -36,7 +34,6 @@ const LoginComponent = () => {
           navigator('/home')
           window.location.reload(false);
         }).catch(err => {
-          setError('Invalid Username or Password')
           console.log(err);
         })
         
@@ -75,8 +72,6 @@ const LoginComponent = () => {
                   className="input-field"
                 />
               </div>
-              {error?<Alert severity="error">{error}</Alert>:null}
-              <br></br>
               <button type="submit" className="login-button">Login</button>
           </form>
       </div>

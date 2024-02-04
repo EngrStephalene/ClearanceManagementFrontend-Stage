@@ -11,6 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
 import { getLoggedInUser, isAdminUser, isFacultyHead, isStudentUser, isUserLoggedIn } from '../services/AuthService';
 import { Avatar } from '@mui/material';
+import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 
 const SideBarComponent = ({children}) => {
 
@@ -44,6 +45,11 @@ const SideBarComponent = ({children}) => {
   //THIS FUNCTION IS FOR DEPARTMENTS ROUTE
   function handleDepartmentLink() {
     navigate('/departments')
+    window.location.reload(true)
+  }
+
+  function handleOfficesLink() {
+    navigate('/offices')
     window.location.reload(true)
   }
 
@@ -146,6 +152,20 @@ const SideBarComponent = ({children}) => {
                   </div>
                   <div id='sidebarTitle'>DEPARTMENTS</div>
               </li>
+              }
+              {
+                isAdmin && <li
+                className='SidebarRow' 
+                onClick={handleOfficesLink}
+                id={window.location.pathname == "/offices" ? "active" : ""}
+                >
+                  <div id='sidebarIcon'>
+                    {
+                      <MapsHomeWorkIcon/>
+                    }
+                  </div>
+                  <div id='sidebarTitle'>OFFICES</div>
+                </li>
               }
               {/* <li 
                 className='SidebarRow' 

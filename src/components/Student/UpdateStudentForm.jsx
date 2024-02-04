@@ -1,4 +1,4 @@
-import { Typography, Grid, Paper, Button, TextField, Alert } from '@mui/material'
+import { Typography, Grid, Paper, Button, TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
@@ -9,7 +9,6 @@ const UpdateStudentForm = (params) => {
     const btnStyle = { marginTop: 10 }
     const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
     const {pUserId, pFirstName, pMiddleName, pLastName, pStudentNumber, pEmail, pAddress} = params;
-    const [error,setError]=useState();
 
     //INITIALIZE FORM VALUES
     const initialValues = {
@@ -46,11 +45,11 @@ const UpdateStudentForm = (params) => {
         .then((response) => {
             console.log(response.data)
             alert("Successfully updated student information.")
-            window.location.reload(true)
         }).catch(err => {
             console.log(err)
-            setError('There was an error while updating student. Kindly contact admin for support.')
+            alert("There was an error while updating student information. Kindly contact administrator.")
         })
+        window.location.reload(true)
         props.resetForm()
     }
 
@@ -61,7 +60,6 @@ const UpdateStudentForm = (params) => {
   return (
     <Grid>
         <Paper elevation={0} style={paperStyle}>
-            {error?<Alert severity="error">{error}</Alert>:null}
             <Grid align='center'>
                 <Typography variant='caption'>Fill the form update student.</Typography>
             </Grid>

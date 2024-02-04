@@ -33,6 +33,7 @@ const ProfileComponent = () => {
     const username = getLoggedInUser();
     const role = getRole();
     const roleArr = role.split("_");
+    // setDisplayRole(roleArr[1])
 
     let text = ""
     for(let i=1; i<roleArr.length; i++) {
@@ -158,9 +159,12 @@ const ProfileComponent = () => {
               <li>Address: {userInformation.address}</li>
               <li>Email Address: {userInformation.email}</li>
               <li>Gender: {userInformation.gender}</li>
-              <li>Birthday YYYY-MM-DD: {userInformation.birthday}</li>
+              <li>Birthday: {userInformation.birthday}</li>
               {
                 isStudent && <li>Year Level: {userInformation.yearLevel} Year</li>
+              }
+              {
+                isStudent && <li>Course: {userInformation.course}</li>
               }
             </ul>
             <p style={{color:"brown"}}><strong>Click the button to edit user information.</strong></p>

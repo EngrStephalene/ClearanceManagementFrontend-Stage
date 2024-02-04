@@ -9,6 +9,7 @@ import { createViolation } from '../../services/ViolationService'
 const ViolationForm = (params) => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
+    const addBtnStyle = { marginTop: 10, marginLeft: "25px" }
     const authorizedUser = getLoggedInUser()
     const completed = 0;
     const [faculty, setFaculty] = useState([])
@@ -57,18 +58,13 @@ const ViolationForm = (params) => {
         const violation = {facultyId, completed, description, actionItem}
 
         createViolation(studentNumber, violation)
-        .then((response) => {
-            console.log(response.data)
-            alert("Successfully added student violation.")
-            window.location.reload(true)
-        }).catch(err => {
-            console.log(err)
-            alert("There was an error while adding violation. Kindly contact admin.")
-            window.location.reload(true)
-        })
 
         props.resetForm()
+
+        alert("Successful!")
+        window.location.reload(true)
     }
+
 
   return (
     <Grid>
@@ -90,7 +86,7 @@ const ViolationForm = (params) => {
                             readOnly: true,
                           }}
                         />
-                        <Field 
+                        {/* <Field 
                         as={TextField}
                         name = 'description'
                         label = 'Remarks'
@@ -99,11 +95,29 @@ const ViolationForm = (params) => {
                         required
                         error={props.errors.description && props.touched.description}
                                 helperText={<ErrorMessage name='description' />}
-                        />
+                        /> */}
+                        <Field
+                        name = 'description'
+                        label = 'Remarks'
+                        component = 'select'
+                        style={{marginBottom: "15px"}}
+                        >
+                            <option value="">Select Violation</option>
+                            <option value="No ID">No ID</option>
+                            <option value="No Complete Uniform">No Complete Uniform</option>
+                            <option value="No haircut">No haircut</option>
+                            <option value="Plagiarism">Plagiarism</option>
+                            <option value="Cheating on Exams">Cheating on Exams</option>
+                            <option value="Fabricating Data or Information">Fabricating Data or Information</option>
+                            <option value="Forgery">Forgery</option>
+                            <option value="Disruptive Behavior">Disruptive Behavior</option>
+                            <option value="Drug or Alcohol Violations">Drug or Alcohol Violations</option>
+                            <option value="Violations of Computer Use Policies">Violations of Computer Use Policies</option>
+                        </Field>
                         <Field 
                         as={TextField}
                         name = 'actionItem'
-                        label = 'Action Item'
+                        label = 'Action/Resolution'
                         fullWidth
                         required
                         error={props.errors.actionItem && props.touched.actionItem}
@@ -114,6 +128,13 @@ const ViolationForm = (params) => {
                         variant='contained'
                         color='primary'>
                             Submit
+                        </Button>
+                        <Button 
+                        onClick={handleAddViolationButton(values,props)} 
+                        style={addBtnStyle} 
+                        variant='contained'
+                        color='secondary'>
+                            Add
                         </Button>
                     </Form>
                 )}

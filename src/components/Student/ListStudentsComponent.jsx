@@ -12,18 +12,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import UpdateStudentForm from './UpdateStudentForm';
 import DeleteIcon from '@mui/icons-material/Delete';
+import UploadIcon from '@mui/icons-material/Upload';
+import CSVImportComponent from './CSVImportComponent';
 
 const ListStudentsComponent = () => {
-  const[students, setStudents] = useState([])
-  const navigator = useNavigate();
-  const {id} = useParams();
-  const [addViolationOpen, setAddViolationOpen] = useState(false)
-  const [addStudentOpen, setAddStudentOpen] = useState(false)
-  const [updateStudentOpen, setUpdateStudentOpen] = useState(false)
-  const [selectedStudent, setSelectedStudent] = useState([])
-  const [selectedStudentFirstname, setSelectedStudentFirstname] = useState([])
-  const [selectedStudentLastname, setSelectedStudentLastname] = useState([])
-  const [selectedStudentForUpdate, setSelectedStudentForUpdate] = useState([])
+  const[students, setStudents] = useState([]);
+  const [addViolationOpen, setAddViolationOpen] = useState(false);
+  const [addStudentOpen, setAddStudentOpen] = useState(false);
+  const [updateStudentOpen, setUpdateStudentOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState([]);
+  const [selectedStudentFirstname, setSelectedStudentFirstname] = useState([]);
+  const [selectedStudentLastname, setSelectedStudentLastname] = useState([]);
+  const [selectedStudentForUpdate, setSelectedStudentForUpdate] = useState([]);
+  const [csvFileImportOpen, setCsvFileImportOpen] = useState(false);
 
   useEffect(() => {
     studentList();
@@ -77,6 +78,34 @@ const ListStudentsComponent = () => {
     })
   }
 
+  //FUNCTION TO HANDLE IMPORT CSV
+  function handleImport() {
+    console.log("Import CSV button is clicked.")
+    setCsvFileImportOpen(true)
+  }
+
+  const [file, setFile] = useState();
+  const fileReader = new FileReader();
+
+
+  const handleOnChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleOnSubmit = (e) => {
+  console.log("submit button clicked.")
+    e.preventDefault();
+    console.log("file " + file)
+    if (file) {
+      fileReader.onload = function (event) {
+        const csvOutput = event.target.result;
+        console.log(csvOutput)
+      };
+
+      fileReader.readAsText(file);
+    }
+  };
+
   return (
     <div className='StudentComponent'>
       {/* <div className="input-group rounded">
@@ -91,17 +120,37 @@ const ListStudentsComponent = () => {
       <Button onClick={handleAddStudent} variant="contained" color="success" startIcon={<AddIcon />}>
         ADD STUDENT
       </Button>
+      <Button 
+      onClick={handleImport}
+      variant="contained" 
+      color="secondary" 
+      style={{marginLeft: '1050px'}}
+      startIcon={<UploadIcon />}>
+        IMPORT CSV
+      </Button>
+      {/* <form>
+        <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
+          <button
+          style={{marginTop:'25px'}}
+          onClick={(e) => {
+            handleOnSubmit(e);
+          }}
+          >
+            IMPORT FILE
+          </button>
+      </form> */}
       <br></br><br></br>
       <table className='table table-striped table-bordered shadow' style={{width:"96%"}}>
         <thead>
           <tr>
             <th>STUDENT ID</th>
-            <th>YEAR LEVEL</th>
             <th>FIRST NAME</th>
             <th>MIDDLE NAME</th>
             <th>LAST NAME</th>
             <th>EMAIL</th>
             <th>ADDRESS</th>
+            <th>YEAR LEVEL</th>
+            <th>COURSE</th>
             <th>ACTION</th>
           </tr>
         </thead>
@@ -110,12 +159,13 @@ const ListStudentsComponent = () => {
               students.map( student =>
                   <tr key={student.id}>
                     <td> {student.studentNumber} </td>
-                    <td> {student.yearLevel} </td>
                     <td> {student.firstName} </td>
                     <td> {student.middleName} </td>
                     <td> {student.lastName} </td>
                     <td> {student.email} </td>
                     <td> {student.address} </td>
+                    <td> {student.yearLevel} </td>
+                    <td> {student.course} </td>
                     <td>
                       <Fab
                         color="secondary" 
@@ -212,6 +262,23 @@ const ListStudentsComponent = () => {
           pEmail = {selectedStudentForUpdate.email}
           pAddress = {selectedStudentForUpdate.address}
          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+      open = {csvFileImportOpen}
+      onClose={() => setCsvFileImportOpen(false)}
+      >
+        <Button 
+            color='primary'
+            onClick={() => setCsvFileImportOpen(false)}
+            style={{marginLeft: "500px"}}
+            >
+                <CloseIcon/>
+        </Button>
+        <DialogTitle textAlign={'center'}>IMPORT CSV FILE.</DialogTitle>
+        <DialogContent dividers>
+          <CSVImportComponent/>
         </DialogContent>
       </Dialog>
   

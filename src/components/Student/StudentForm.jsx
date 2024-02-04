@@ -1,4 +1,4 @@
-import { Typography, Grid, Paper, Button, TextField, Alert } from '@mui/material'
+import { Typography, Grid, Paper, Button, TextField } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
@@ -13,7 +13,6 @@ const StudentForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
     const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
-    const [error,setError]=useState();
       
     //INITIALIZE FORM VALUES
     const initialValues = {
@@ -22,7 +21,8 @@ const StudentForm = () => {
         middlename: '',
         lastname: '',
         email: '',
-        address: ''
+        address: '',
+        course: ''
     }
 
     //FUNCTION FOR FORM VALIDATION
@@ -31,7 +31,8 @@ const StudentForm = () => {
         lastname: Yup.string().min(2, "Last Name too short").required("Required"),
         gender: Yup.string().min(2, "Gender required.").required("Required"),
         yearLevel: Yup.string().min(1, "Gender required.").required("Required"),
-        address: Yup.string().min(3, "Address too short.").required("Required")
+        address: Yup.string().min(3, "Address too short.").required("Required"),
+        email: Yup.string().email('Invalid email').required('Required')
     })
 
     //FUNCTION TO HANDLE SUBMIT FORM
@@ -46,17 +47,17 @@ const StudentForm = () => {
         const address = values.address;
         const birthday = values.birthday;
         const yearLevel = values.yearLevel
-        const student = {studentNumber, firstName, middleName, lastName, email, address, birthday, yearLevel, gender}
+        const course = values.course
+        const student = {studentNumber, firstName, middleName, lastName, email, address, birthday, yearLevel, gender, course}
         console.log(student)
-        addStudent(student)
-        .then((response) => {
-            console.log(response.data)
-            alert("Success")
-            window.location.reload(true)
-        }).catch(err => {
-            console.log(err)
-            setError('There was an error while adding student. Kindly contact admin for support.')
-        })
+        // addStudent(student)
+        // .then((response) => {
+        //     console.log(response.data)
+        //     alert("Success")
+        //     window.location.reload(true)
+        // }).catch(err => {
+        //     console.log(err)
+        // })
         props.resetForm()
     }
 
@@ -67,7 +68,6 @@ const StudentForm = () => {
   return (
     <Grid>
         <Paper elevation={0} style={paperStyle}>
-            {error?<Alert severity="error">{error}</Alert>:null}
             <Grid align='center'>
                 <Typography variant='caption'>Fill the form add student.</Typography>
             </Grid>
@@ -114,7 +114,6 @@ const StudentForm = () => {
                         label = 'Select Gender'
                         component = 'select'
                         style={{marginBottom: "15px"}}
-                        required
                         >
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
@@ -144,13 +143,13 @@ const StudentForm = () => {
                         fullWidth
                         required
                         error={props.errors.email && props.touched.email}
-                                helperText={<ErrorMessage name='actionItem' />}
+                                helperText={<ErrorMessage name='email' />}
                         />
                         <Field
                         name = 'yearLevel'
                         label = 'Select Year Level'
                         component = 'select'
-                        style={{marginTop: "15px"}}
+                        style={{marginTop: "15px", marginBottom: "15px"}}
                         >
                             <option value="">Select Year Level</option>
                             <option value="First">I</option>
@@ -158,6 +157,16 @@ const StudentForm = () => {
                             <option value="Third">III</option>
                             <option value="Fourth">IV</option>
                         </Field>
+                        <Field 
+                        as={TextField}
+                        name = 'course'
+                        label = 'Course'
+                        fullWidth
+                        required
+                        tyle={{marginTop: "15px"}}
+                        error={props.errors.course && props.touched.course}
+                                helperText={<ErrorMessage name='course' />}
+                        />
                         <Field 
                         as={TextField}
                         name = 'address'

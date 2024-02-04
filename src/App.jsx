@@ -18,6 +18,7 @@ import ProfileComponent from './components/Profile/ProfileComponent'
 import ListAnnouncementComponent from './components/Announcement/ListAnnouncementComponent'
 import './App.css'
 import ListViolationForStudentComponent from './components/Violation/ListViolationForStudentComponent'
+import ListOfficesComponent from './components/Office/ListOfficesComponent'
 
 function App() {
 
@@ -124,11 +125,16 @@ function App() {
                 <ListAnnouncementComponent/>
               </AuthenticatedRoute>
             }></Route>
-
             {/* Route for Profile Section */}
             <Route path='/profile' element = {
               <AuthenticatedRoute>
                 <ProfileComponent/>
+              </AuthenticatedRoute>
+            }>
+            </Route>
+            <Route path='/offices' element= {
+              <AuthenticatedRoute>
+                <ListOfficesComponent/>
               </AuthenticatedRoute>
             }>
             </Route>

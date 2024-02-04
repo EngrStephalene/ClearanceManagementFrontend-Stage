@@ -11,6 +11,8 @@ import ClearanceRejectForm from './ClearanceRejectForm'
 import { getStudentNumberByUserId } from '../../services/StudentService';
 import './Clearance.css'
 import { getRoleOfFaculty } from '../../services/UserService';
+import DownloadIcon from '@mui/icons-material/Download';
+import { jsPDF } from "jspdf";
 
 const ListClearanceComponent = () => {
 
@@ -26,7 +28,7 @@ const ListClearanceComponent = () => {
   const [studentNumber, setStudentNumber] = useState([])
   const approvedStatus = {color: '#00bbf0', fontWeight: 'bold'}
   const pendingStatus = { color: '#dc2f2f'}
-  const cardStyle = {marginBottom: 25, backgroundColor: "rgba(229, 226, 226, 0.545)"}
+  const cardStyle = {marginBottom: 25, width: '96%', backgroundColor: "rgba(229, 226, 226, 0.545)"}
   const [studentInformationHeader, setStudentInformationHeader] = useState([])
 
   useEffect(() => {
@@ -226,20 +228,19 @@ const ListClearanceComponent = () => {
     } else {
       return <div className='ClearanceComponent'>
         <br></br>
-
         <h2 className='text-center'>LIST OF CLEARANCE REQUESTS</h2>
-        <div className='test'>
+        <div id='pdf' style={{width: "85%"}}>
           {
             isStudent && <div className='lists'>
             <ul>
-              <li style={{listStyle:"none", fontSize:"20px"}}>Name: {studentInformationHeader.studentName} </li>
-              <li style={{listStyle:"none", fontSize:"20px"}}>Course/Year Level: {studentInformationHeader.yearLevel} Year</li>
-              <li style={{listStyle:"none", fontSize:"20px"}}>Purpose: {studentInformationHeader.purpose}</li>
+              <li style={{listStyle:"none", fontSize:"15px"}}>Name: {studentInformationHeader.studentName} </li>
+              <li style={{listStyle:"none", fontSize:"15px"}}>Course/Year Level: {studentInformationHeader.yearLevel} Year</li>
+              <li style={{listStyle:"none", fontSize:"15px"}}>Purpose: {studentInformationHeader.purpose}</li>
             </ul>
-          </div>
+        </div>
           }
         <br></br>
-        <table className='table table-striped table-bordered shadow' style={{width:"100%"}}>
+        <table className='table table-striped table-bordered shadow' style={{width:"100%", fontSize: "10px"}}>
           <thead>
             <tr>
               {
@@ -318,10 +319,31 @@ const ListClearanceComponent = () => {
     if (isStudent && clearances.length === 0) {
       return <Button onClick={handleClearanceRequest} variant="contained" color='success' startIcon={<AddIcon />}style={{marginTop: "100px" }}>
       REQUEST CLEARANCE
-      </Button>
+      </Button> 
     } else if (isStudent) {
       return <Button onClick={handleDeleteStudentClearanceRequest} variant="contained" color="error" startIcon={<DeleteIcon />}style={{marginTop: "100px" }}>
       CANCEL CLEARANCE REQUESTS
+      </Button>
+    }
+  }
+
+  const createPDF = async () => {
+    const pdf = new jsPDF("landscape", "pt", "a4");
+    const data = await document.querySelector("#pdf");
+    pdf.html(data).then(() => {
+    pdf.save("clearance.pdf");
+    });
+  };
+
+  function renderDownloadAsPDFButton() {
+    if(clearances.length !== 0) {
+      return <Button 
+      onClick={createPDF}
+      variant="contained" 
+      color="secondary" 
+      style={{marginLeft: '850px'}}
+      startIcon={<DownloadIcon />}>
+        DOWNLOAD CLEARANCE AS PDF
       </Button>
     }
   }
@@ -334,6 +356,10 @@ const ListClearanceComponent = () => {
       <br></br><br></br>
       {
         renderClearanceList()
+      }
+      <br></br>
+      {
+        isStudentUser() &&  renderDownloadAsPDFButton()
       }
 
       <Dialog

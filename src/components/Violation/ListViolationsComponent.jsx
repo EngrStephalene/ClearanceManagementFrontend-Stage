@@ -5,11 +5,13 @@ import './Violation.css'
 import { Button, Alert, AlertTitle, Dialog, DialogContent, DialogTitle, Fab, Table, TablePagination, Pagination } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import UpdateViolationForm from './UpdateViolationForm';
 import { isStudentUser, getUserId, isAdminUser, isFacultyHead, isFacultyUser, isPrefectOfDiscipline } from '../../services/AuthService';
 import { getStudentNumberByUserId, getStudentNameByUserId } from '../../services/StudentService';
+import AddViolationForm from './AddViolationForm';
 
 const ListViolationsComponent = () => {
     const [violations, setViolations] = useState([])
@@ -21,7 +23,8 @@ const ListViolationsComponent = () => {
     const [selectedViolationReporter, setSelectedViolationReporter] = useState([])
     const [violationDescription, setViolationDescription] = useState([])
     const [violationActionitem, setViolationActionItem] = useState([])
-    const [openViolationOpen, setOpenViolationOpen] = useState(false)
+    const [updateViolationOpen, setUpdateViolationOpen] = useState(false)
+    const [addViolationOpen, setAddViolationOpen] = useState(false)
     const [studentNumber, setStudentNumber] = useState([])
     const [studentName, setStudentName] = useState([])
     const userId = getUserId()
@@ -78,7 +81,17 @@ const ListViolationsComponent = () => {
         setSelectedViolationReporter(violation.facultyId)
         setViolationDescription(violation.description)
         setViolationActionItem(violation.actionItem)
-        setOpenViolationOpen(true)
+        setUpdateViolationOpen(true)
+    }
+
+    function handleCloseAddViolation() {
+        setAddViolationOpen(false)
+        window.location.reload(true)
+    }
+
+    //FUNCTION TO HANDLE ADD VIOLATION BUTTON
+    function handleAddViolation() {
+        setAddViolationOpen(true)
     }
 
     //FUCNTION TO HANDLE DELETE VIOLATION
@@ -105,7 +118,7 @@ const ListViolationsComponent = () => {
         })
     }
 
-    //FUNCTION TO HANDLE COMPLETE VIOLATION BUTTON
+    //FUNCTION TO HANDLE RENDER OF COMPLETE VIOLATION BUTTON
     //BUTTON MUST BE DISABLED IF VIOLATION IS ALREADY COMPLETE
     function renderMarkCompleteButton(violation) {
         if(violation.completed) {
@@ -132,6 +145,56 @@ const ListViolationsComponent = () => {
         }
     }
 
+    //FUNCTION TO HANDLE RENDER OF EDIT BUTTON
+    //BUTTON MUST BE DISABLED IF STATUS OF VIOLATION IS RESOLVED
+    function renderEditButton(violation) {
+        if(violation.completed) {
+            return  <Fab
+            color="secondary" 
+            aria-label="edit"
+            onClick={() => handleUpdateViolation(violation)}
+            style={{transform: 'scale(0.9)'}}
+            disabled
+            >
+                <EditIcon/>
+            </Fab>
+        } else {
+            return  <Fab
+            color="secondary" 
+            aria-label="edit"
+            onClick={() => handleUpdateViolation(violation)}
+            style={{transform: 'scale(0.9)'}}
+            >
+                <EditIcon/>
+            </Fab>
+        }
+    }
+
+    //FUNCTION TO HANDLE RENDER OF DELETE BUTTON
+    //BUTTON MUST BE DISABLED IF STATUS OF VIOLATION IS RESOLVED
+    function renderDeleteButton(violation) {
+        if(violation.completed) {
+            return  <Fab
+            color="error" 
+            aria-label="delete"
+            onClick={() => handleDelete(violation.id)}
+            style={{transform: 'scale(0.9)'}}
+            disabled
+            >
+                <DeleteIcon/>
+            </Fab>
+        } else {
+            return  <Fab
+            color="error" 
+            aria-label="delete"
+            onClick={() => handleDelete(violation.id)}
+            style={{transform: 'scale(0.9)'}}
+            >
+                <DeleteIcon/>
+            </Fab>
+        }
+    }
+
     //FUNCTION FOR COMPLETE/INCOMPLETE COLUMN
     function renderCompleteIncompleteColumn(completed) {
         if(completed) {
@@ -153,12 +216,13 @@ const ListViolationsComponent = () => {
         } else {
             console.log("GET ALL VIOLATIONS IS NOT EMPTY.")
             return <div>
-                <table className='table table-bordered table-striped shadow'>
+                <br></br>
+                <table className='table table-bordered table-striped shadow' style={{width:"96%"}}>
                     <thead>
                         <tr>
                             <th>Student Name</th>
                             <th>Violation</th>
-                            <th>Action Taken</th>
+                            <th>Action/Resolution</th>
                             <th>Reporter</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -177,23 +241,11 @@ const ListViolationsComponent = () => {
                                         renderCompleteIncompleteColumn(violation.completed)
                                     }
                                     <td>
-                                        <Fab
-                                        color="secondary" 
-                                        aria-label="edit"
-                                        onClick={() => handleUpdateViolation(violation)}
-                                        style={{transform: 'scale(0.9)'}}
-                                        >
-                                            <EditIcon/>
-                                        </Fab>
                                         {
-                                            isPrefectOfDiscipline && <Fab
-                                            color="error" 
-                                            aria-label="delete"
-                                            onClick={() => handleDelete(violation.id)}
-                                            style={{transform: 'scale(0.9)'}}
-                                            >
-                                                <DeleteIcon/>
-                                            </Fab>
+                                            (isAdminUser() || isFacultyHead() || isFacultyUser()) && renderEditButton(violation)
+                                        }
+                                        {
+                                            isPrefectOfDiscipline && renderDeleteButton(violation)
                                         }
                                         {
                                             isPrefectOfDiscipline() && renderMarkCompleteButton(violation)
@@ -220,12 +272,12 @@ const ListViolationsComponent = () => {
         } else {
             console.log("GET ALL VIOLATIONS IS NOT EMPTY.")
             return <div>
-                <table className='table table-bordered table-striped shadow'>
+                <table className='table table-bordered table-striped shadow' style={{width:"96%"}}>
                     <thead>
                         <tr>
                             <th>Reported Date</th>
                             <th>Violation</th>
-                            <th>Action Taken</th>
+                            <th>Action/Resolution</th>
                             <th>Remarks</th>
                         </tr>
                     </thead>
@@ -259,13 +311,11 @@ const ListViolationsComponent = () => {
             <h2 className='text-center'>LIST OF VIOLATIONS FOR {studentName}</h2>
         }
         <br></br>
-        {/* <Fab
-        color='primary'
-        aria-label='add'
-        onClick={addNewViolation}
-        >
-            <AddIcon/>
-        </Fab> */}
+        {
+            (isAdminUser() || isFacultyHead() || isFacultyUser()) && <Button onClick={handleAddViolation} variant="contained" color= 'success' startIcon={<AddIcon />}>
+            Add Violation
+            </Button>
+        }
         {
             (isAdminUser() || isFacultyHead() || isFacultyUser()) &&
             renderViolation()
@@ -276,12 +326,29 @@ const ListViolationsComponent = () => {
         }
 
         <Dialog
-        open = {openViolationOpen}
-        onClose={() => setOpenViolationOpen(false)}
+        open = {addViolationOpen}
+        onClose={() => setAddViolationOpen(false)}
         >
             <Button 
             color='primary'
-            onClick={() => setOpenViolationOpen(false)}
+            onClick={handleCloseAddViolation}
+            style={{marginLeft: "500px"}}
+            >
+                <CloseIcon/>
+            </Button>
+            <DialogTitle textAlign={'center'}>ADD VIOLATION</DialogTitle>
+            <DialogContent dividers>
+                <AddViolationForm/>
+            </DialogContent>
+        </Dialog>
+
+        <Dialog
+        open = {updateViolationOpen}
+        onClose={() => setUpdateViolationOpen(false)}
+        >
+            <Button 
+            color='primary'
+            onClick={() => setUpdateViolationOpen(false)}
             style={{marginLeft: "500px"}}
             >
                 <CloseIcon/>

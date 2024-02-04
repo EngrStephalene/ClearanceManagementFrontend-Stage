@@ -5,11 +5,13 @@ import * as Yup from 'yup'
 import { addFacultyHead } from '../../services/FacultyService'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { getAllOffice } from '../../services/OfficeService'
 
 const FacultyHeadForm = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 450, }
     const btnStyle = { marginTop: 10 }
     const cancelbtnStyle = { marginTop: 10, marginLeft: 20}
+    const [offices, setOffices] = useState([])
 
      //INITIALIZE FORM VALUES
      const initialValues = {
@@ -21,6 +23,19 @@ const FacultyHeadForm = () => {
         address: '',
         office: ''
     }
+
+    function getOfficeFromDB() {
+        getAllOffice().then((response) => {
+            console.log(response.data)
+            setOffices(response.data)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+    useEffect(() => {
+        getOfficeFromDB()
+    }, [])
 
     //FUNCTION FOR FORM VALIDATION
     const validationSchema = Yup.object().shape({
@@ -47,13 +62,11 @@ const FacultyHeadForm = () => {
         addFacultyHead(faculty)
         .then((response) => {
             console.log(response.data)
-            alert("Successfully added faculty head.")
-            window.location.reload(true)
         }).catch(err => {
             console.log(err)
-            alert("There was an error while adding faculty. Kindly contact administrator.")
-            window.location.reload(true)
         })
+        alert("Successfully added faculty head.")
+        window.location.reload(true)
         props.resetForm()
     }
 
@@ -65,7 +78,7 @@ const FacultyHeadForm = () => {
     <Grid>
         <Paper elevation={0} style={paperStyle}>
             <Grid align='center'>
-                <Typography variant='caption'>Fill the form add faculty head.</Typography>
+                <Typography variant='caption'>Fill the form add faculty.</Typography>
             </Grid>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 {(props) => (
@@ -160,9 +173,15 @@ const FacultyHeadForm = () => {
                         style={{marginTop: "15px"}}
                         >
                             <option value="">Select Office</option>
+                            {
+                                offices.map(office => {
+                                    <option key={office.id} value={office.name}>{office.name}</option>
+                                })
+                            }
+                            {/* <option value="">Select Office</option>
                             <option value="Department Chairman">Department Chairman</option>
                             <option value="College Dean">College Dean</option>
-                            <option value="School Director">School Director</option>
+                            <option value="School Director">College Dean</option>
                             <option disabled value="SG Adviser">SG Adviser</option>
                             <option disabled value="Campus Ministry">Campus Ministry</option>
                             <option disabled value="Guidance Office">Office of the Guidance Center</option>
@@ -171,7 +190,7 @@ const FacultyHeadForm = () => {
                             <option disabled value="Property Custodian">Property Custodian</option>
                             <option disabled value="Prefect Of Discipline">Prefect of Discipline</option>
                             <option disabled alue="Registrar">Office of the School Registrar</option>
-                            <option disabled value="Finance">Cashier / Finance Office</option>
+                            <option disabled value="Finance">Cashier / Finance Office</option> */}
                         </Field>
                         <br></br>
                         <Button 

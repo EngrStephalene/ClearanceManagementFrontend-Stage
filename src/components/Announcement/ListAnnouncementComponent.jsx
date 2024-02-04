@@ -21,7 +21,7 @@ const ListAnnouncementComponent = () => {
   const [selectedAnnouncementForEdit, setSelectedAnnouncementForEdit] = useState([])
   const isAdmin = isAdminUser();
   const btnStyle = { marginTop: 10, marginLeft: 150 }
-  const cardStyle = {marginBottom: 25, backgroundColor: "rgba(229, 226, 226, 0.545)"}
+  const cardStyle = {marginBottom: 25, width:'96%', backgroundColor: "rgba(229, 226, 226, 0.545)"}
   
   //FUNCTION TO HANDLE THE LIKE BUTTON FOR EACH CARD
   const handleColor = () => {
@@ -81,7 +81,7 @@ const ListAnnouncementComponent = () => {
     if (announcements.length === 0) {
       console.log("GET ALL ANNOUNCEMENTS IS EMPTY.");
       return (
-        <Alert severity="info" style={{ backgroundColor: "rgba(229, 226, 226, 0.545)", marginTop: "50px"}}>
+        <Alert severity="info" style={{ backgroundColor: "rgba(229, 226, 226, 0.545)", marginTop: "50px", width: "96%"}}>
           <AlertTitle>Info</AlertTitle>
           <strong className="announcement-alert">THERE ARE NO ANNOUNCEMENTS AT THIS TIME.</strong>
         </Alert>
@@ -90,9 +90,7 @@ const ListAnnouncementComponent = () => {
       console.log("GET ALL ANNOUNCEMENTS IS NOT EMPTY.")
       return <div className='mui-card'>
         <h2 style={{marginBottom: "50px"}}>Latest Announcements</h2>
-        
-        <div className='vince' style={{width:"97%"}}>
-          {
+        {
             announcements.map(announcement =>
               <Card key={announcement.id} style={cardStyle}>
                 <CardHeader
@@ -139,7 +137,6 @@ const ListAnnouncementComponent = () => {
               
             )
           }
-        </div>
       </div>
     } 
   }
