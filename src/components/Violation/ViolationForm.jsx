@@ -64,7 +64,7 @@ const ViolationForm = (params) => {
         props.resetForm()
     }
 
-    function handleCancelBtn() {
+    function handleCloseBtn() {
         console.log("Cancel button is clicked.")
         window.location.reload(true)
     }
@@ -134,11 +134,11 @@ const ViolationForm = (params) => {
                             Add
                         </Button>
                          <Button 
-                        onClick={handleCancelBtn} 
+                        onClick={handleCloseBtn} 
                         style={addBtnStyle} 
                         variant='contained'
                         color='error'>
-                            Cancel
+                            Close
                         </Button>
                     </Form>
                 )}
