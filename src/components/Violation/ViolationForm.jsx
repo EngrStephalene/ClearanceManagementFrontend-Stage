@@ -59,9 +59,13 @@ const ViolationForm = (params) => {
 
         createViolation(studentNumber, violation)
 
-        props.resetForm()
-
         alert("Successful!")
+        // window.location.reload(true)
+        props.resetForm()
+    }
+
+    function handleCancelBtn() {
+        console.log("Cancel button is clicked.")
         window.location.reload(true)
     }
 
@@ -127,14 +131,14 @@ const ViolationForm = (params) => {
                         type='submit' style={btnStyle} 
                         variant='contained'
                         color='primary'>
-                            Submit
+                            Add
                         </Button>
-                        <Button 
-                        onClick={handleAddViolationButton(values,props)} 
+                         <Button 
+                        onClick={handleCancelBtn} 
                         style={addBtnStyle} 
                         variant='contained'
-                        color='secondary'>
-                            Add
+                        color='error'>
+                            Cancel
                         </Button>
                     </Form>
                 )}
